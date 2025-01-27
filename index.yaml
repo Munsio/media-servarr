@@ -265,6 +265,40 @@ entries:
   jellyseerr:
   - apiVersion: v2
     appVersion: 1.9.2
+    created: "2025-01-27T20:27:33.520910756Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.8.1
+    description: Jellyseerr is a software application for managing requests for your
+      media library.
+    digest: 01a02266e1ab3b691013e1fa4f68df94a7fdc885fb2ef603d347d23889be0313
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/jellyseerr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/jellyseerr/icon.png
+    keywords:
+    - tv
+    - television
+    - film
+    - movie
+    - manager
+    - media
+    - jellyfin
+    - jellyseerr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: jellyseerr
+    sources:
+    - https://github.com/Fallenbagel/jellyseerr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/jellyseerr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/jellyseerr-0.4.2/jellyseerr-0.4.2.tgz
+    version: 0.4.2
+  - apiVersion: v2
+    appVersion: 1.9.2
     created: "2025-01-26T21:48:49.877311786Z"
     dependencies:
     - name: media-servarr-base
@@ -798,4 +832,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.0/transmission-0.7.0.tgz
     version: 0.7.0
-generated: "2025-01-26T21:48:50.605943131Z"
+generated: "2025-01-27T20:27:33.520944839Z"
