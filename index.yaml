@@ -3,6 +3,42 @@ entries:
   bazarr:
   - apiVersion: v2
     appVersion: 1.4.5
+    created: "2025-02-03T18:58:33.347446901Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.8.2
+    description: Companion application to Sonarr and Radarr to manage and download
+      subtitles
+    digest: eefaaf7a1f39eb10822ff45335b6344db19169936425149f93b66abc0d8ef03c
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/bazarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/bazarr/icon.png
+    keywords:
+    - subtitles
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    - sonarr
+    - bazarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: bazarr
+    sources:
+    - https://github.com/morpheus65535/Bazarr
+    - https://github.com/linuxserver/docker-bazarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/bazarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/bazarr-0.6.3/bazarr-0.6.3.tgz
+    version: 0.6.3
+  - apiVersion: v2
+    appVersion: 1.4.5
     created: "2025-02-03T18:46:02.973216824Z"
     dependencies:
     - name: media-servarr-base
@@ -1257,4 +1293,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.0/transmission-0.7.0.tgz
     version: 0.7.0
-generated: "2025-02-03T18:46:04.393654475Z"
+generated: "2025-02-03T18:58:33.347526119Z"
