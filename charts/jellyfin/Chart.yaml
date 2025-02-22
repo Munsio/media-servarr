@@ -1,6 +1,7 @@
 apiVersion: v2
 name: jellyfin
-description: A free software media system that puts you in control of managing and
+description:
+  A free software media system that puts you in control of managing and
   streaming your media
 home: https://github.com/drinkataco/media-servarr/tree/main/charts/jellyfin
 keywords:
@@ -14,7 +15,7 @@ keywords:
   - stream
   - media
   - jellyfin
-kubeversion: '>=1.24.0-0'
+kubeversion: ">=1.24.0-0"
 type: application
 version: 0.5.2
 appVersion: 10.9.11

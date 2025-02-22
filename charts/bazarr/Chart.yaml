@@ -11,7 +11,7 @@ keywords:
   - radarr
   - sonarr
   - bazarr
-kubeversion: '>=1.24.0-0'
+kubeversion: ">=1.24.0-0"
 type: application
 version: 0.6.3
 appVersion: 1.4.5
