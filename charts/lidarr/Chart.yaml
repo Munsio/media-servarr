@@ -10,10 +10,10 @@ keywords:
   - manager
   - lidarr
 kubeversion: ">=1.24.0-0"
-type: application
-version: 0.8.2
-appVersion: 2.5.3
-icon: https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png
+type: "application"
+version: 0.9.0
+appVersion: 2.9.6.4552-ls31
+icon: "https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png"
 dependencies:
   - name: media-servarr-base
     version: 0.8.2
