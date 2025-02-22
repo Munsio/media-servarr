@@ -11,10 +11,10 @@ keywords:
   - manager
   - readarr
 kubeversion: ">=1.24.0-0"
-type: application
-version: 0.8.2
-appVersion: 0.4.0-develop
-icon: https://github.com/drinkataco/media-servarr/blob/main/charts/readarr/icon.png
+type: "application"
+version: 0.8.1
+appVersion: "0.4.0-develop"
+icon: "https://github.com/drinkataco/media-servarr/blob/main/charts/readarr/icon.png"
 dependencies:
   - name: media-servarr-base
     version: 0.8.2
