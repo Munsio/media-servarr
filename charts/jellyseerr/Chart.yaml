@@ -1,6 +1,7 @@
 apiVersion: v2
 name: jellyseerr
-description: Jellyseerr is a software application for managing requests for your media
+description:
+  Jellyseerr is a software application for managing requests for your media
   library.
 home: https://github.com/drinkataco/media-servarr/tree/main/charts/jellyseerr
 keywords:
@@ -12,7 +13,7 @@ keywords:
   - media
   - jellyfin
   - jellyseerr
-kubeversion: '>=1.24.0-0'
+kubeversion: ">=1.24.0-0"
 type: application
 version: 0.4.3
 appVersion: 2.3.0

@@ -1,12 +1,13 @@
 apiVersion: v2
 name: homarr
-description: Sleek, modern dashboard that puts all of your apps and services at your
+description:
+  Sleek, modern dashboard that puts all of your apps and services at your
   fingertips
 home: https://github.com/drinkataco/media-servarr/tree/main/charts/homarr
 keywords:
   - dashboard
   - homarr
-kubeversion: '>=1.24.0-0'
+kubeversion: ">=1.24.0-0"
 type: application
 version: 0.7.2
 appVersion: 0.15.4
