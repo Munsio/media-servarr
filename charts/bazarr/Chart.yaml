@@ -14,7 +14,7 @@ keywords:
 kubeversion: ">=1.24.0-0"
 type: 'application'
 version: 0.7.4
-appVersion: v1.5.1-ls301
+appVersion: v1.5.1-ls302
 icon: 'https://github.com/drinkataco/media-servarr/blob/main/charts/bazarr/icon.png'
 dependencies:
   - name: 'media-servarr-base'
