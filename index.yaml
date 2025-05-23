@@ -439,6 +439,39 @@ entries:
     version: 0.4.0
   lidarr:
   - apiVersion: v2
+    appVersion: 2.11.2
+    created: "2025-05-23T08:08:58.117095023Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.1
+    description: Music collection manager for Usenet and BitTorrent users.
+    digest: 0a49017e08b2d8ba1bcfff715a269404a9c7b4b1757b21b830b02b7eb7f76d38
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/lidarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png
+    keywords:
+    - music
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - lidarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: lidarr
+    sources:
+    - https://github.com/Lidarr/Lidarr
+    - https://github.com/linuxserver/docker-lidarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/lidarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/lidarr-0.10.0/lidarr-0.10.0.tgz
+    version: 0.10.0
+  - apiVersion: v2
     appVersion: 2.9.6.4552-ls33
     created: "2025-03-23T18:40:01.993887202Z"
     dependencies:
@@ -1101,4 +1134,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-05-23T08:08:43.645960043Z"
+generated: "2025-05-23T08:08:58.758460529Z"
