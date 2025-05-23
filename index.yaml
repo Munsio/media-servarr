@@ -603,6 +603,40 @@ entries:
     version: 0.10.0
   radarr:
   - apiVersion: v2
+    appVersion: 5.23.3
+    created: "2025-05-23T08:08:43.20110428Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.1
+    description: Movie collection manager for Usenet and BitTorrent users
+    digest: 32404f17ffc3a3a9c01d36da901082b4f8a5c22008bda9fa3234ccc626384166
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/radarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png
+    keywords:
+    - film
+    - movies
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: radarr
+    sources:
+    - https://github.com/Radarr/Radarr
+    - https://github.com/linuxserver/docker-radarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/radarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/radarr-0.12.0/radarr-0.12.0.tgz
+    version: 0.12.0
+  - apiVersion: v2
     appVersion: 5.20.2.9777-ls264
     created: "2025-03-23T18:40:02.256682413Z"
     dependencies:
@@ -1067,4 +1101,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-05-23T08:08:31.704955824Z"
+generated: "2025-05-23T08:08:43.645960043Z"
