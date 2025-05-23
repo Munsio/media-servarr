@@ -636,6 +636,41 @@ entries:
     version: 0.11.0
   readarr:
   - apiVersion: v2
+    appVersion: 0.4.17-nightly
+    created: "2025-05-23T08:08:03.032489786Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.1
+    description: Ebook and audiobook collection manager for Usenet and BitTorrent
+      users
+    digest: 9c7c5d80601231cb207bfa94bcfeb05fd3d6bcd96187a3b6a7c85c11c64d31df
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/readarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/readarr/icon.png
+    keywords:
+    - ebooks
+    - audiobooks
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - readarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: readarr
+    sources:
+    - https://github.com/Readarr/Readarr
+    - https://github.com/linuxserver/docker-readarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/readarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/readarr-0.8.8/readarr-0.8.8.tgz
+    version: 0.8.8
+  - apiVersion: v2
     appVersion: nightly-0.4.13.2754-ls385
     created: "2025-03-23T18:40:02.362052983Z"
     dependencies:
@@ -961,4 +996,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-05-23T08:07:49.513962716Z"
+generated: "2025-05-23T08:08:03.246915574Z"
