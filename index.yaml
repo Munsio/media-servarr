@@ -3,6 +3,42 @@ entries:
   bazarr:
   - apiVersion: v2
     appVersion: 1.5.2
+    created: "2025-06-03T17:46:47.234793819Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Companion application to Sonarr and Radarr to manage and download
+      subtitles
+    digest: caa51f77c3c2a77638a40ce315ed6590fe3a784bad8f22368a287759d53f4838
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/bazarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/bazarr/icon.png
+    keywords:
+    - subtitles
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    - sonarr
+    - bazarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: bazarr
+    sources:
+    - https://github.com/morpheus65535/Bazarr
+    - https://github.com/linuxserver/docker-bazarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/bazarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/bazarr-0.7.5/bazarr-0.7.5.tgz
+    version: 0.7.5
+  - apiVersion: v2
+    appVersion: 1.5.2
     created: "2025-05-23T08:08:30.983824818Z"
     dependencies:
     - name: media-servarr-base
@@ -112,6 +148,35 @@ entries:
   flaresolverr:
   - apiVersion: v2
     appVersion: v3.3.21
+    created: "2025-06-03T17:46:47.376229237Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Proxy server to bypass Cloudflare and DDoS-GUARD protection.
+    digest: 9209ea5886035b43179e8be6f997bbbed8b2ec197d09752f5a168c6c28649363
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/flaresolverr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/flaresolverr/icon.png
+    keywords:
+    - flaresolverr
+    - proxy
+    - cloudflare
+    - bypass
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: flaresolverr
+    sources:
+    - https://github.com/FlareSolverr/FlareSolverr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/flaresolverr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/flaresolverr-0.6.2/flaresolverr-0.6.2.tgz
+    version: 0.6.2
+  - apiVersion: v2
+    appVersion: v3.3.21
     created: "2025-03-23T18:40:01.561611972Z"
     dependencies:
     - name: media-servarr-base
@@ -171,6 +236,34 @@ entries:
   homarr:
   - apiVersion: v2
     appVersion: 0.15.10
+    created: "2025-06-03T17:46:47.538737862Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Sleek, modern dashboard that puts all of your apps and services at
+      your fingertips
+    digest: 21ba2035dfd5a47c74c3b91e4181d015b1ade0f8fb692adf7f9ba1d674553186
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/homarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/homarr/icon.png
+    keywords:
+    - dashboard
+    - homarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: homarr
+    sources:
+    - https://github.com/ajnart/homarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/homarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/homarr-0.7.5/homarr-0.7.5.tgz
+    version: 0.7.5
+  - apiVersion: v2
+    appVersion: 0.15.10
     created: "2025-03-23T18:40:01.676251124Z"
     dependencies:
     - name: media-servarr-base
@@ -226,6 +319,42 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/homarr-0.7.3/homarr-0.7.3.tgz
     version: 0.7.3
   jellyfin:
+  - apiVersion: v2
+    appVersion: 10.10.7
+    created: "2025-06-03T17:46:47.682569136Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: A free software media system that puts you in control of managing
+      and streaming your media
+    digest: dc1eb3238b4045b60ed745dcb2d9295e15e9f088c70042cdb6b9c36ab246db8b
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/jellyfin
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/jellyfin/icon.png
+    keywords:
+    - music
+    - tv
+    - television
+    - film
+    - movie
+    - ebooks
+    - manager
+    - stream
+    - media
+    - jellyfin
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: jellyfin
+    sources:
+    - https://github.com/jellyfin/jellyfin
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/jellyfin
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/jellyfin-0.6.3/jellyfin-0.6.3.tgz
+    version: 0.6.3
   - apiVersion: v2
     appVersion: 10.10.7
     created: "2025-05-23T08:07:49.104941511Z"
@@ -337,6 +466,40 @@ entries:
   jellyseerr:
   - apiVersion: v2
     appVersion: 2.5.2
+    created: "2025-06-03T17:46:47.797072037Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Jellyseerr is a software application for managing requests for your
+      media library.
+    digest: 53d8efe3592d700ad096267987ec70d29ff4fe5b5f6b43f80202be7fd7799ef7
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/jellyseerr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/jellyseerr/icon.png
+    keywords:
+    - tv
+    - television
+    - film
+    - movie
+    - manager
+    - media
+    - jellyfin
+    - jellyseerr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: jellyseerr
+    sources:
+    - https://github.com/Fallenbagel/jellyseerr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/jellyseerr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/jellyseerr-0.4.4/jellyseerr-0.4.4.tgz
+    version: 0.4.4
+  - apiVersion: v2
+    appVersion: 2.5.2
     created: "2025-04-24T14:31:43.37661532Z"
     dependencies:
     - name: media-servarr-base
@@ -440,6 +603,39 @@ entries:
   lidarr:
   - apiVersion: v2
     appVersion: 2.11.2
+    created: "2025-06-03T17:46:47.934865787Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Music collection manager for Usenet and BitTorrent users.
+    digest: af0948d214f6800df34057692cb0010e7fb5e50c8e2adfd5d796389577d5c594
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/lidarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png
+    keywords:
+    - music
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - lidarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: lidarr
+    sources:
+    - https://github.com/Lidarr/Lidarr
+    - https://github.com/linuxserver/docker-lidarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/lidarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/lidarr-0.10.1/lidarr-0.10.1.tgz
+    version: 0.10.1
+  - apiVersion: v2
+    appVersion: 2.11.2
     created: "2025-05-23T08:08:58.117095023Z"
     dependencies:
     - name: media-servarr-base
@@ -538,6 +734,38 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/lidarr-0.9.1/lidarr-0.9.1.tgz
     version: 0.9.1
   prowlarr:
+  - apiVersion: v2
+    appVersion: 1.36.3
+    created: "2025-06-03T17:46:48.051159344Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: BitTorrent indexer management
+    digest: a5ad8ed342dfd6a8a651bfa8f8255a7c0d221c6d34a43085314600597bf690b6
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/prowlarr/icon.png
+    keywords:
+    - bittorrent
+    - torrent
+    - download
+    - indexer
+    - prowlarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: prowlarr
+    sources:
+    - https://github.com/Prowlarr/Prowlarr
+    - https://github.com/linuxserver/docker-prowlarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/prowlarr-0.12.1/prowlarr-0.12.1.tgz
+    version: 0.12.1
   - apiVersion: v2
     appVersion: 1.36.3
     created: "2025-05-26T06:57:04.992170643Z"
@@ -667,6 +895,40 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/prowlarr-0.10.0/prowlarr-0.10.0.tgz
     version: 0.10.0
   radarr:
+  - apiVersion: v2
+    appVersion: 5.25.0
+    created: "2025-06-03T17:46:48.201214601Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Movie collection manager for Usenet and BitTorrent users
+    digest: b4b234e8072b979978fe855a4c4ed41ab9407a074e2236704ae526fc4ba8f4a3
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/radarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png
+    keywords:
+    - film
+    - movies
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: radarr
+    sources:
+    - https://github.com/Radarr/Radarr
+    - https://github.com/linuxserver/docker-radarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/radarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/radarr-0.13.1/radarr-0.13.1.tgz
+    version: 0.13.1
   - apiVersion: v2
     appVersion: 5.25.0
     created: "2025-05-27T06:57:53.571479593Z"
@@ -806,6 +1068,41 @@ entries:
   readarr:
   - apiVersion: v2
     appVersion: 0.4.17-nightly
+    created: "2025-06-03T17:46:48.340170047Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Ebook and audiobook collection manager for Usenet and BitTorrent
+      users
+    digest: 9ce028ae58cdc28b36d00c63fc123ed0a3e1ee028b071afbe6e857e95f1ab1fc
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/readarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/readarr/icon.png
+    keywords:
+    - ebooks
+    - audiobooks
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - readarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: readarr
+    sources:
+    - https://github.com/Readarr/Readarr
+    - https://github.com/linuxserver/docker-readarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/readarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/readarr-0.8.9/readarr-0.8.9.tgz
+    version: 0.8.9
+  - apiVersion: v2
+    appVersion: 0.4.17-nightly
     created: "2025-05-23T08:08:03.032489786Z"
     dependencies:
     - name: media-servarr-base
@@ -912,6 +1209,36 @@ entries:
   sabnzbd:
   - apiVersion: v2
     appVersion: 4.5.1
+    created: "2025-06-03T17:46:48.489212237Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: SABnzbd is a program to download binary files from Usenet servers
+    digest: 4bc1d002ee3215c73b190f5ff16778fdd1bb2ada7709610171efd41fc3e765b1
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/sabnzbd
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/sabnzbd/icon.png
+    keywords:
+    - usenet
+    - newsreader
+    - sabnzbd
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: sabnzbd
+    sources:
+    - https://github.com/sabnzbd/sabnzbd
+    - https://hub.docker.com/r/linuxserver/sabnzbd
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/sabnzbd
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sabnzbd-0.5.1/sabnzbd-0.5.1.tgz
+    version: 0.5.1
+  - apiVersion: v2
+    appVersion: 4.5.1
     created: "2025-05-23T08:06:39.50022488Z"
     dependencies:
     - name: media-servarr-base
@@ -1001,6 +1328,41 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/sabnzbd-0.4.1/sabnzbd-0.4.1.tgz
     version: 0.4.1
   sonarr:
+  - apiVersion: v2
+    appVersion: 4.0.14
+    created: "2025-06-03T17:46:48.596390689Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Television series manager for Usenet and BitTorrent users
+    digest: 78c42c848b96be833af383583814ae85b6a3b808d9347d692b98c32ef5eb7e47
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/sonarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/sonarr/icon.png
+    keywords:
+    - tv
+    - television
+    - series
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - sonarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: sonarr
+    sources:
+    - https://github.com/Sonarr/Sonarr
+    - https://github.com/linuxserver/docker-sonarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/sonarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sonarr-0.7.7/sonarr-0.7.7.tgz
+    version: 0.7.7
   - apiVersion: v2
     appVersion: 4.0.14
     created: "2025-05-23T08:08:17.635831059Z"
@@ -1109,6 +1471,37 @@ entries:
   transmission:
   - apiVersion: v2
     appVersion: 4.0.6
+    created: "2025-06-03T17:46:48.735327948Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.7.2
+    description: Simple and easy BitTorrent Client
+    digest: e5add241073cc344405dc0e212068732e9b18bbbd41d979fc57a969de098964d
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/transmission
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/transmission/icon.png
+    keywords:
+    - transmission
+    - bittorrent
+    - torrent
+    - download
+    - usenet
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: transmission
+    sources:
+    - https://github.com/transmission/transmission
+    - https://github.com/linuxserver/docker-transmission
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/transmission
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.6/transmission-0.7.6.tgz
+    version: 0.7.6
+  - apiVersion: v2
+    appVersion: 4.0.6
     created: "2025-05-23T08:07:01.310300577Z"
     dependencies:
     - name: media-servarr-base
@@ -1200,4 +1593,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-05-27T06:57:54.1066981Z"
+generated: "2025-06-03T17:46:48.735425891Z"
