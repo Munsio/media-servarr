@@ -9,8 +9,8 @@ keywords:
   - 'bypass'
 kubeVersion: ">=1.24.0-0"
 type: 'application'
-version: 0.6.3
-appVersion: v3.3.22
+version: 0.6.4
+appVersion: v3.3.24
 icon: 'https://github.com/drinkataco/media-servarr/blob/main/charts/flaresolverr/icon.png'
 dependencies:
   - name: 'media-servarr-base'
