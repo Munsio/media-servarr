@@ -12,8 +12,8 @@ keywords:
   - 'radarr'
 kubeversion: ">=1.24.0-0"
 type: 'application'
-version: 0.13.1
-appVersion: 5.25.0
+version: 0.14.0
+appVersion: 5.26.2
 icon: 'https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png'
 dependencies:
   - name: 'media-servarr-base'
