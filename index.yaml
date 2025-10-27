@@ -1700,6 +1700,36 @@ entries:
     version: 0.8.6
   sabnzbd:
   - apiVersion: v2
+    appVersion: 4.5.5
+    created: "2025-10-27T19:33:26.335211626Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: SABnzbd is a program to download binary files from Usenet servers
+    digest: be63691abcb7f3abe6f74ee7cfbd13fb9654696435810fa391943719a907c43f
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/sabnzbd
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/sabnzbd/icon.png
+    keywords:
+    - usenet
+    - newsreader
+    - sabnzbd
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: sabnzbd
+    sources:
+    - https://github.com/sabnzbd/sabnzbd
+    - https://hub.docker.com/r/linuxserver/sabnzbd
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/sabnzbd
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sabnzbd-0.6.6/sabnzbd-0.6.6.tgz
+    version: 0.6.6
+  - apiVersion: v2
     appVersion: 4.5.3
     created: "2025-10-27T19:02:18.114579135Z"
     dependencies:
@@ -2181,4 +2211,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-10-27T19:33:13.062124095Z"
+generated: "2025-10-27T19:33:26.335351277Z"
