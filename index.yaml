@@ -382,6 +382,35 @@ entries:
     version: 0.3.1
   flaresolverr:
   - apiVersion: v2
+    appVersion: v3.4.5
+    created: "2025-11-11T10:50:44.748716334Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: Proxy server to bypass Cloudflare and DDoS-GUARD protection.
+    digest: e75f36a28744cc7b4a8a7d812635f414e47cb3937323b2cec24505cb102212f1
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/flaresolverr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/flaresolverr/icon.png
+    keywords:
+    - flaresolverr
+    - proxy
+    - cloudflare
+    - bypass
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: flaresolverr
+    sources:
+    - https://github.com/FlareSolverr/FlareSolverr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/flaresolverr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/flaresolverr-0.8.5/flaresolverr-0.8.5.tgz
+    version: 0.8.5
+  - apiVersion: v2
     appVersion: v3.4.4
     created: "2025-11-05T19:33:03.21784799Z"
     dependencies:
@@ -2655,4 +2684,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-11-10T11:48:35.247356267Z"
+generated: "2025-11-11T10:50:44.748901609Z"
