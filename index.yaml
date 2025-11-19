@@ -1529,6 +1529,38 @@ entries:
     version: 0.9.1
   prowlarr:
   - apiVersion: v2
+    appVersion: 2.3.0
+    created: "2025-11-19T18:44:22.936416257Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: BitTorrent indexer management
+    digest: 156eb39a63b3e07679162c01c509534d3a90c6e8cb7d8610b5845424594e77f9
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/prowlarr/icon.png
+    keywords:
+    - bittorrent
+    - torrent
+    - download
+    - indexer
+    - prowlarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: prowlarr
+    sources:
+    - https://github.com/Prowlarr/Prowlarr
+    - https://github.com/linuxserver/docker-prowlarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/prowlarr-0.18.0/prowlarr-0.18.0.tgz
+    version: 0.18.0
+  - apiVersion: v2
     appVersion: 2.1.5
     created: "2025-10-27T19:33:43.047910252Z"
     dependencies:
@@ -2748,4 +2780,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-11-19T18:44:19.214913324Z"
+generated: "2025-11-19T18:44:22.936600001Z"
