@@ -904,6 +904,42 @@ entries:
     version: 0.1.0
   jellyfin:
   - apiVersion: v2
+    appVersion: 10.11.3
+    created: "2025-11-19T18:44:19.214759566Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: A free software media system that puts you in control of managing
+      and streaming your media
+    digest: 951a04428121cd9c76d0218bed985ebcdb5b39663029f2e398cbb04fe1c89c0e
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/jellyfin
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/jellyfin/icon.png
+    keywords:
+    - music
+    - tv
+    - television
+    - film
+    - movie
+    - ebooks
+    - manager
+    - stream
+    - media
+    - jellyfin
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: jellyfin
+    sources:
+    - https://github.com/jellyfin/jellyfin
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/jellyfin
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/jellyfin-0.8.3/jellyfin-0.8.3.tgz
+    version: 0.8.3
+  - apiVersion: v2
     appVersion: 10.11.2
     created: "2025-11-03T06:38:16.611557315Z"
     dependencies:
@@ -2712,4 +2748,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2025-11-16T11:20:13.11356235Z"
+generated: "2025-11-19T18:44:19.214913324Z"
