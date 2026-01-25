@@ -1173,6 +1173,40 @@ entries:
     version: 0.7.3
   huntarr:
   - apiVersion: v2
+    appVersion: 8.2.25
+    created: "2026-01-25T13:09:04.941956171Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: Companion application to Sonarr and Radarr to clean up failed and
+      completed downloads
+    digest: 78c933a8a90729b69d49374204412c6f191542171096c02e53957842afba1d97
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/huntarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/huntarr/icon.png
+    keywords:
+    - torrent
+    - bittorrent
+    - radarr
+    - sonarr
+    - lidarr
+    - prowlarr
+    - readarr
+    - whisparr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: huntarr
+    sources:
+    - https://github.com/plexguide/Huntarr.io
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/huntarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/huntarr-0.1.3/huntarr-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
     appVersion: 8.2.23
     created: "2026-01-23T07:10:38.463704567Z"
     dependencies:
@@ -3327,4 +3361,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-01-23T07:10:38.463894311Z"
+generated: "2026-01-25T13:09:04.94215835Z"
