@@ -3269,6 +3269,37 @@ entries:
     version: 0.7.4
   transmission:
   - apiVersion: v2
+    appVersion: 4.1.0
+    created: "2026-01-30T10:27:10.6396428Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: Simple and easy BitTorrent Client
+    digest: 008f920f3ed52f453e5e981f8e48dad1d9bd80e88f7d9789503a89e08272c8fe
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/transmission
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/transmission/icon.png
+    keywords:
+    - transmission
+    - bittorrent
+    - torrent
+    - download
+    - usenet
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: transmission
+    sources:
+    - https://github.com/transmission/transmission
+    - https://github.com/linuxserver/docker-transmission
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/transmission
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/transmission-0.9.0/transmission-0.9.0.tgz
+    version: 0.9.0
+  - apiVersion: v2
     appVersion: 4.0.6
     created: "2025-10-27T19:02:18.407845382Z"
     dependencies:
@@ -3423,4 +3454,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-01-27T12:28:05.722252028Z"
+generated: "2026-01-30T10:27:10.63987986Z"
