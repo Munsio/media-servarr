@@ -844,6 +844,34 @@ entries:
     version: 0.6.0
   homarr:
   - apiVersion: v2
+    appVersion: v1.53.0
+    created: "2026-02-07T10:08:21.183490605Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: Sleek, modern dashboard that puts all of your apps and services at
+      your fingertips
+    digest: 1c3117b5592147f2b5878b0f97e34277790918aee3af6a6d833b4be5054fac34
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/homarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/homarr/icon.png
+    keywords:
+    - dashboard
+    - homarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: homarr
+    sources:
+    - https://github.com/homarr-labs/homarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/homarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/homarr-0.28.0/homarr-0.28.0.tgz
+    version: 0.28.0
+  - apiVersion: v2
     appVersion: v1.52.0
     created: "2026-02-01T10:43:30.454344715Z"
     dependencies:
@@ -3688,4 +3716,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-02-06T19:10:41.788495651Z"
+generated: "2026-02-07T10:08:21.183741132Z"
