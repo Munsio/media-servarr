@@ -255,6 +255,39 @@ entries:
     version: 0.7.2
   cleanuparr:
   - apiVersion: v2
+    appVersion: 2.9.13
+    created: "2026-06-03T11:29:42.725911006Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: Companion application to Sonarr and Radarr to clean up failed and
+      completed downloads
+    digest: 720983d4848a55ef56b50738f709d9e8c5ff47f083378e34b9e3b417057cacef
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/cleanuparr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/cleanuparr/icon.png
+    keywords:
+    - torrent
+    - bittorrent
+    - radarr
+    - sonarr
+    - lidarr
+    - readarr
+    - whisparr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: cleanuparr
+    sources:
+    - https://github.com/Cleanuparr/Cleanuparr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/cleanuparr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/cleanuparr-0.6.0/cleanuparr-0.6.0.tgz
+    version: 0.6.0
+  - apiVersion: v2
     appVersion: 2.5.1
     created: "2026-01-11T10:30:10.474616025Z"
     dependencies:
@@ -3942,4 +3975,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-06-03T11:29:30.527721624Z"
+generated: "2026-06-03T11:29:42.726167966Z"
