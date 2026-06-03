@@ -3511,6 +3511,41 @@ entries:
     version: 0.4.1
   sonarr:
   - apiVersion: v2
+    appVersion: 4.0.17
+    created: "2026-06-03T11:29:30.5275707Z"
+    dependencies:
+    - name: media-servarr-base
+      repository: file://../..
+      version: 0.9.0
+    description: Television series manager for Usenet and BitTorrent users
+    digest: 2c85ec6a72b0e7804f1773de71548d3b8adc6512a4560cdc6d2e534da187c4ca
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/sonarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/sonarr/icon.png
+    keywords:
+    - tv
+    - television
+    - series
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - sonarr
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: sonarr
+    sources:
+    - https://github.com/Sonarr/Sonarr
+    - https://github.com/linuxserver/docker-sonarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/sonarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sonarr-0.8.6/sonarr-0.8.6.tgz
+    version: 0.8.6
+  - apiVersion: v2
     appVersion: 4.0.16
     created: "2025-11-06T13:43:54.66231902Z"
     dependencies:
@@ -3907,4 +3942,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-06-03T11:28:58.50526877Z"
+generated: "2026-06-03T11:29:30.527721624Z"
