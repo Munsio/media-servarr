@@ -51,7 +51,7 @@ app-template:
       containers:
         main:
           image:
-            repository: lscr.io/linuxserver/readarr
+            repository: ghcr.io/linuxserver/readarr
             tag: "0.4.19-nightly"
           env:
             PGID: "1000"

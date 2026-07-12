@@ -76,7 +76,7 @@ app-template:
       containers:
         main:
           image:
-            repository: lscr.io/linuxserver/sabnzbd
+            repository: ghcr.io/linuxserver/sabnzbd
             tag: "5.0.4"
           env:
             PGID: "1000"
