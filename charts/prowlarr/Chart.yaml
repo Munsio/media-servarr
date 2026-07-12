@@ -1,7 +1,7 @@
 apiVersion: 'v2'
 name: 'prowlarr'
 description: 'BitTorrent indexer management'
-home: 'https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr'
+home: 'https://github.com/Munsio/media-servarr/tree/main/charts/prowlarr'
 keywords:
   - 'bittorrent'
   - 'torrent'
@@ -12,17 +12,17 @@ kubeVersion: ">=1.28.0-0"
 type: 'application'
 version: 1.1.1
 appVersion: 2.4.0
-icon: 'https://github.com/drinkataco/media-servarr/blob/main/charts/prowlarr/icon.png'
+icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/prowlarr/icon.png'
 dependencies:
   - name: 'app-template'
     version: '5.0.1'
     repository: 'https://bjw-s-labs.github.io/helm-charts'
 maintainers:
   - name: 'media-servarr'
-    email: 'git@jo.shw.al'
-    url: 'https://github.com/drinkataco/media-servarr/'
+    email: 'git@treml.dev'
+    url: 'https://github.com/Munsio/media-servarr/'
 sources:
   - 'https://github.com/Prowlarr/Prowlarr'
   - 'https://github.com/linuxserver/docker-prowlarr'
   - 'https://ghcr.io/onedr0p/exportarr'
-  - 'https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr'
+  - 'https://github.com/Munsio/media-servarr/tree/main/charts/prowlarr'

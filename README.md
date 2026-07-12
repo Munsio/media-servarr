@@ -1,8 +1,8 @@
 # media-servarr helm charts
 
-[![Lint](https://github.com/drinkataco/media-servarr/actions/workflows/lint.yaml/badge.svg)](https://github.com/drinkataco/media-servarr/actions/workflows/lint.yaml)
-[![Release](https://github.com/drinkataco/media-servarr/actions/workflows/release.yaml/badge.svg)](https://github.com/drinkataco/media-servarr/actions/workflows/release.yaml)
-[![App Update](https://github.com/drinkataco/media-servarr/actions/workflows/auto-update.yaml/badge.svg)](https://github.com/drinkataco/media-servarr/actions/workflows/auto-update.yaml)
+[![Lint](https://github.com/Munsio/media-servarr/actions/workflows/lint.yaml/badge.svg)](https://github.com/Munsio/media-servarr/actions/workflows/lint.yaml)
+[![Chart page](https://github.com/Munsio/media-servarr/actions/workflows/chart-page.yaml/badge.svg)](https://github.com/Munsio/media-servarr/actions/workflows/chart-page.yaml)
+[![App Update](https://github.com/Munsio/media-servarr/actions/workflows/auto-update.yaml/badge.svg)](https://github.com/Munsio/media-servarr/actions/workflows/auto-update.yaml)
 
 ![media-servarr](./icon.png)
 
@@ -20,7 +20,7 @@ The aim of this repository is to be featureful, use repeatable code, and to be a
 Add the repository using:
 
 ```bash
-helm repo add media-servarr https://media-servarr.shw.al/charts
+helm repo add media-servarr https://munsio.github.io/media-servarr/
 ```
 
 And then view all available charts with

@@ -3,7 +3,7 @@ name: Chart page
 on:
   push:
     branches:
-      - base
+      - main
 
 # permissions are needed if pushing to ghcr.io
 permissions:
