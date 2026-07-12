@@ -36,7 +36,7 @@
 - Read a scalar: `dasel query -i yaml "version" < file.yaml` → prints the value.
 - Write + get full document back: `dasel query -i yaml --root "version = \"1.2.3\"" < file.yaml` → prints the whole modified document (the `--root` flag is required for this, otherwise only the changed value prints).
 - There is no in-place edit flag in v3 (removed on purpose) — the documented pattern is `dasel query -i yaml --root '<query>' < file > file.tmp && mv file.tmp file`.
-- Filtering a list where nothing matches and then calling `.first()` **errors** (exit 1: `unexpected type: expected map, got null`) — unlike `yq`'s `select()`, which silently no-ops on zero matches. `.count()` on a zero-match filter returns `0` safely (exit 0). This matters here: `update_base.sh`'s `main()` unconditionally calls `update_dependency_version "$chart" "media-servarr-base" ...` for every chart, and once `charts/radarr` is converted (Task 2), `radarr/Chart.yaml` will no longer have a `media-servarr-base` dependency at all — so the ported function **must** guard with a `count()` check before writing, or it will crash on radarr's `Chart.yaml` the next time this script runs after Task 2.
+- Filtering a list and calling `.first()` returns `null` safely (exit 0) when the `dependencies` list exists but has no matching entry. `.count()` is not a safe alternative here: it unexpectedly **errors** when the filter *does* have a real match (`expected bool, got map`), so `first()` + a null check is the correct guard, not `count()`. Note also that `first()` still errors (exit 1) if the file has no `dependencies:` key at all — that case needs its own fallback (`2>/dev/null || echo null`) so it also no-ops instead of crashing. This matters here: `update_base.sh`'s `main()` unconditionally calls `update_dependency_version "$chart" "media-servarr-base" ...` for every chart, and once `charts/radarr` is converted (Task 2), `radarr/Chart.yaml` will no longer have a `media-servarr-base` dependency at all — so the ported function guards with `first()` + a null check before writing, rather than crashing on radarr's `Chart.yaml` after Task 2.
 
 - [ ] **Step 1: Add `flake.lock` to git tracking**
 
@@ -135,17 +135,40 @@ update_chart_version() {
 #   the named dependency isn't present in the file.
 update_dependency_version() {
   local file=$1 dependency_name=$2 new_version=$3
-  local match_count
+  local match_result
 
-  match_count=$(dasel query -i yaml "dependencies.filter(name == \"${dependency_name}\").count()" < "$file")
+  # Check if the dependency exists by attempting to get the first match
+  # Returns "null" if no match is found, whether that's because the
+  # dependencies list has no matching entry, or because the file has no
+  # "dependencies:" key at all (dasel errors on the latter, so we fall
+  # back to "null" instead of letting `set -e` abort the script).
+  match_result=$(dasel query -i yaml "dependencies.filter(name == \"${dependency_name}\").first()" < "$file" 2>/dev/null || echo null)
 
-  if [[ "$match_count" -eq 0 ]]; then
+  if [[ "$match_result" == "null" ]]; then
     return 0
   fi
 
   echo "Updating $dependency_name dependency version in $file to $new_version"
-  dasel query -i yaml --root "dependencies.filter(name == \"${dependency_name}\").first().version = \"${new_version}\"" < "$file" > "${file}.tmp" \
-    && mv "${file}.tmp" "$file"
+
+  # Write with awk rather than dasel: dasel's write path re-serializes the
+  # whole document (reformatting every list's indentation), whereas awk lets
+  # us touch only the one "version:" line inside the matching dependency
+  # block, leaving the rest of the file byte-for-byte unchanged.
+  awk -v name="$dependency_name" -v new_version="$new_version" '
+    /^dependencies:/ { in_deps = 1 }
+    in_deps && /^[^[:space:]]/ && !/^dependencies:/ { in_deps = 0 }
+    in_deps && /^[[:space:]]*- name:/ {
+      line = $0
+      gsub(/^[[:space:]]*- name:[[:space:]]*/, "", line)
+      gsub(/["\x27]/, "", line)
+      in_block = (line == name)
+    }
+    in_deps && in_block && /^[[:space:]]*version:/ {
+      sub(/version:.*/, "version: " new_version)
+      in_block = 0
+    }
+    { print }
+  ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
 }
 
 # The main function orchestrates the version update process.
@@ -235,10 +258,13 @@ git commit -m "$(cat <<'EOF'
 Port update_base.sh from yq to dasel; commit flake.lock
 
 yq is no longer part of the toolchain now that the devShell provides
-dasel. The dependency-version updater now guards with a count() check
-before writing, since charts converted to app-template will no longer
-have a media-servarr-base dependency at all, and dasel (unlike yq's
-select()) errors on first() over a zero-match filter.
+dasel. The dependency-version updater guards with a first() + null
+check before writing: dasel's count() unexpectedly errors when a
+filter has a real match ("expected bool, got map"), so first() is the
+safe way to detect whether a chart has the named dependency at all.
+The write itself uses awk rather than dasel, since dasel's write path
+re-serializes the whole document (reformatting every list's
+indentation); awk touches only the matched dependency's version line.
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
 EOF

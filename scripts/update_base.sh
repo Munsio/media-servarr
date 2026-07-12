@@ -73,8 +73,11 @@ update_dependency_version() {
   local match_result
 
   # Check if the dependency exists by attempting to get the first match
-  # Returns "null" if no match is found
-  match_result=$(dasel query -i yaml "dependencies.filter(name == \"${dependency_name}\").first()" < "$file")
+  # Returns "null" if no match is found, whether that's because the
+  # dependencies list has no matching entry, or because the file has no
+  # "dependencies:" key at all (dasel errors on the latter, so we fall
+  # back to "null" instead of letting `set -e` abort the script).
+  match_result=$(dasel query -i yaml "dependencies.filter(name == \"${dependency_name}\").first()" < "$file" 2>/dev/null || echo null)
 
   if [[ "$match_result" == "null" ]]; then
     return 0

@@ -9,12 +9,14 @@ This README covers the basics of customising and installation
 <!-- vim-md-toc format=bullets ignore=^TODO$ -->
 * [Installation](#installation)
 * [Configuration](#configuration)
+  * [A note on values structure](#a-note-on-values-structure)
   * [Secrets](#secrets)
   * [Application Configuration](#application-configuration)
   * [Volumes](#volumes)
   * [Ingress](#ingress)
   * [Metrics](#metrics)
   * [Advanced](#advanced)
+* [Migrating from v0.x to v1.0.0](#migrating-from-v0x-to-v100)
 * [Upgrading](#upgrading)
 * [Uninstallation](#uninstallation)
 * [Support](#support)
@@ -77,11 +79,13 @@ The rendered config is regenerated from this ConfigMap (with `$apiKey` substitut
 
 ### Volumes
 
-Three persistence items are defined:
+Three user-facing persistence items are defined:
 
 - **config** - General config data (where the sqlite database lives), backed by a PersistentVolumeClaim named `radarr-config`
 - **downloads** - Downloads folder for monitoring (plain `emptyDir` by default)
 - **film** - Location of films (plain `emptyDir` by default)
+
+(`values.yaml` also defines `raw-config` and `processed-config`, two additional internal entries used purely to render `config.xml` via the init container described above — they aren't meant to be configured directly.)
 
 ```yaml
 app-template:
