@@ -9,12 +9,14 @@ This README covers the basics of customising and installation
 <!-- vim-md-toc format=bullets ignore=^TODO$ -->
 * [Installation](#installation)
 * [Configuration](#configuration)
+  * [A note on values structure](#a-note-on-values-structure)
   * [Secrets](#secrets)
   * [Application Configuration](#application-configuration)
   * [Volumes](#volumes)
   * [Ingress](#ingress)
   * [Metrics](#metrics)
   * [Advanced](#advanced)
+* [Migrating from v0.x to v1.0.0](#migrating-from-v0x-to-v100)
 * [Upgrading](#upgrading)
 * [Uninstallation](#uninstallation)
 * [Support](#support)
@@ -36,96 +38,83 @@ Pointing the host `media-servarr.local` to your kubernetes cluster will then all
 
 Here is some example of some configuration you may want to override (and include in installation with `-f myvalues.yaml`
 
+### A note on values structure
+
+This chart depends on [bjw-s's app-template](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) as a subchart rather than being that chart directly. Because of that, every app-template value — in this chart's own `values.yaml` and in any override file you write — must be nested under a top-level `app-template:` key, as shown in every example below.
+
 ### Secrets
 
-To set up secrets, like API keys, use the following format.
-
-Use `openssl rand -hex 16` to generate a key and replace the default value. If using a ConfigMap to manage configuration, you can also set various other secrets here too - such as service passwords, or sonarr and radarr API keys.
+To set up secrets, like API keys, use the following format. Use `openssl rand -hex 16` to generate a key and replace the default value.
 
 ```yaml
-secrets:
-  - name: 'apiKey'
-    value: 'your-api-key-here'
-  - name: 'sonarrApiKey'
-    value: ''
-  - name: 'radarrApiKey'
-    value: ''
+app-template:
+  secrets:
+    bazarr:
+      stringData:
+        apiKey: 'your-api-key-here'
 ```
 
-By not setting this value, and leaving it blank, Bazarr will automatically generate a new key on start.
+By not setting this value, and leaving it blank, Bazarr will automatically generate a key on start.
 
 ### Application Configuration
 
-By default, base configuration is defined using a ConfigMap - defined by default in `./values.yaml` in `application.config`. You can change values in the contents, such as the url base in your custom `values.yaml`.
-
-The list of configurable items is extensive. You can configure service providers directly here, for example. Only a selection of core settings are included in the existing ConfigMap in [values.yaml](values.yaml) - But an exhaustive list is included in [config.example.yaml](./config.example.yaml)
-
-The following example expects to have secrets set up for Radarr and Sonarr API keys for secret injection:
+The base `config.yaml` is defined as a ConfigMap in `app-template.configMaps.config.data` in `./values.yaml`. You can override the contents in your own values file, for example to change the URL base:
 
 ```yaml
-application:
-  port: 8686 # default UI port
-  urlBase: 'radarr' # default web base path
-  config:
-    contents: |
-      general:
-        adaptive_searching: true
-        auto_update: false
-        base_url: '/bazarr'
-        port: 6767
-        use_radarr: false
-        use_sonarr: false
-        radarr:
-          apiKey: '$radarrApiKey'
-          base_url: '/radarr'
-          ip: 'radarr.media-servarr.svc.cluster.local'
-          port: 7878
-        sonarr:
-          apiKey: '$sonarrApiKey'
-          base_url: '/sonarr'
-          ip: 'sonarr.media-servarr.svc.cluster.local'
-          port: 8989
-    # Secrets to inject the config they must be defined as $secret
-    secrets:
-      - 'apiKey'
-      - 'sonarrApiKey'
-      - 'radarrApiKey'
+app-template:
+  configMaps:
+    config:
+      data:
+        config.yaml: |
+          ---
+          analytics:
+            enabled: false
+          auth:
+            apiKey: '$apiKey'
+          general:
+            adaptive_searching: true
+            auto_update: false
+            base_url: '/bazarr'
+            port: 6767
+            use_radarr: false
+            use_sonarr: false
 ```
 
-You can prevent a ConfigMap being create and the configuration being managed as a kubernetes resource by defing the config as null. For example;
+The list of configurable items is extensive — you can configure service providers directly here, for example. Only a selection of core settings are included in the existing ConfigMap in [values.yaml](values.yaml), but an exhaustive list is included in [config.example.yaml](./config.example.yaml).
 
-```yaml
-application:
-  ...
-  config: null
-```
+The rendered config is regenerated from this ConfigMap (with `$apiKey` substituted from the Secret above) on every pod start via an init container — it is not stored on the persistent `config` volume.
 
 ### Volumes
 
-A volume is included just for configuration:
+One user-facing persistence item is defined:
 
-- **config** - General config data, where the sqlite database exists, for example
+- **config** - General config data (where the sqlite database lives), backed by a PersistentVolumeClaim named `bazarr-config`
+
+(`values.yaml` also defines `raw-config` and `processed-config`, two additional internal entries used purely to render `config.yaml` via the init container described above — they aren't meant to be configured directly.)
 
 ```yaml
-deployment:
-  ...
-  volumes:
-    config: # The key will be the volume name
-      persistentVolumeClaim:
-        name: 'bazarr-config'
+app-template:
+  persistence:
+    config:
+      type: persistentVolumeClaim
+      forceRename: bazarr-config
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      storageClass: your-storage-class
 ```
 
-By default, a PersistentVolumeClaim will be provisioned for the `config` named `bazarr-config`.
+To point at a PVC that already exists and that this chart should never create or manage (e.g. a large shared media volume provisioned elsewhere), use a `type: custom` entry with a raw `volumeSpec` instead:
 
 ```yaml
-persistentVolumeClaims:
-  bazarr-config:
-    accessMode: 'ReadWriteOnce'
-    requestStorage: '1Gi'
-    storageClassName: 'manual'
-    selector:
-      matchLabels:
-        type: 'local'
+app-template:
+  persistence:
+    media:
+      type: custom
+      volumeSpec:
+        persistentVolumeClaim:
+          claimName: my-existing-pvc
+      globalMounts:
+        - path: /data
 ```
 
 ### Ingress
@@ -133,34 +122,65 @@ persistentVolumeClaims:
 Ingress can be enabled, and you can customise the default host, path, and TLS settings:
 
 ```yaml
-ingress:
-  enabled: true
-  host: 'example.com'
-  tls:
-    # Your TLS settings...
+app-template:
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: example.com
+          paths:
+            - path: /bazarr
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - hosts: ['example.com']
+          secretName: example-com-tls
 ```
 
 ### Metrics
 
-Enabling metrics enables a sidecar container being attached for [exportarr](https://github.com/onedr0p/exportarr/) - and a ServiceMonitor CRD to be consumed by the [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus) package.
+Enabling metrics attaches a sidecar container for [exportarr](https://github.com/onedr0p/exportarr/) and a ServiceMonitor CRD consumed by [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus). Unlike the previous chart version, this now needs three separate toggles:
 
 ```yaml
-metrics:
-  enabled: true
-  env: []
+app-template:
+  controllers:
+    main:
+      containers:
+        metrics:
+          enabled: true
+  service:
+    main:
+      ports:
+        monitoring:
+          enabled: true
+  serviceMonitor:
+    main:
+      enabled: true
 ```
 
-It is recommended to install [kube-prometheus chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) first for the CRD to be supported. It is not included as a dependency by default in this package!
+It is recommended to install the [kube-prometheus chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) first for the CRD to be supported. It is not included as a dependency by default in this package!
 
-Unless changed with `metrics.port.number` you can then consume metrics over port `9702`.
+Metrics are served on port `9700`.
 
 ### Advanced
 
-Other supported deployment configuration include `deployment.nodeSelector`, `deployment.tolerations`, and `deployment.affinity`
+See the [bjw-s app-template documentation](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) for the full set of available configuration, including `app-template.controllers.main.pod.nodeSelector`, `app-template.controllers.main.pod.tolerations`, `app-template.controllers.main.pod.affinity`, container ports, environment variables, and `serviceAccount`.
 
-You can also adjust container ports, environment variables (such as adding `PGID` and `PUID`) and define a `serviceAccount`.
+## Migrating from v0.x to v1.0.0
 
-Have a look at the parent charts default `values.yaml` for a comprehensive list of available config.
+Version 1.0.0 replaces the chart's internal templating with [bjw-s's app-template](https://bjw-s-labs.github.io/helm-charts/docs/app-template/). The values schema is completely different — see the Configuration section above for the new shape.
+
+**Your existing data is safe.** The `config` PersistentVolumeClaim keeps its exact original name (`bazarr-config`) by default, so a normal `helm upgrade` re-adopts the same PVC and bound volume without recreating it — no manual steps needed for a stock install.
+
+If you previously renamed the config PVC away from the default (e.g. via a custom `persistentVolumeClaims` key), set `app-template.persistence.config.forceRename` to your actual PVC name after upgrading, or switch it to a `type: custom` entry (see Volumes above) if you'd rather the chart never manage that PVC's lifecycle at all.
+
+If you configured custom `application.config` entries beyond the default `config.yaml` (e.g. additional files mounted at other paths), you'll need to translate them manually to `app-template.configMaps.config.data` plus a corresponding `app-template.controllers.main.initContainers.prepare-config` `sed` line for each file that references a secret — see the Application Configuration section above for the pattern.
+
+Note also that every value in this chart now lives one level deeper than before, under a top-level `app-template:` key — see "A note on values structure" above.
+
+Enabling metrics now requires three separate toggles instead of one — see the Metrics section above.
 
 ## Upgrading
 
