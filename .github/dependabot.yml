@@ -1,0 +1,37 @@
+version: 2
+updates:
+  # Tracks the bjw-s/app-template Helm dependency for each chart (replaces
+  # the job scripts/update_base.sh used to do for the old local
+  # media-servarr-base dependency). Also automatically tracks the
+  # container image referenced in each chart's values.yaml, per
+  # https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories#helm-charts
+  # -- this is a live spike to see whether that image-tracking actually
+  # replaces scripts/update_appversion.sh / .github/workflows/auto-update.yaml.
+  - package-ecosystem: 'helm'
+    directory: '/charts/radarr'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'helm'
+    directory: '/charts/bazarr'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'helm'
+    directory: '/charts/jellyfin'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'helm'
+    directory: '/charts/prowlarr'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'helm'
+    directory: '/charts/readarr'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'helm'
+    directory: '/charts/sabnzbd'
+    schedule:
+      interval: 'daily'
+  - package-ecosystem: 'helm'
+    directory: '/charts/sonarr'
+    schedule:
+      interval: 'daily'
