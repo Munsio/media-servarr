@@ -2,11 +2,12 @@ version: 2
 updates:
   # Tracks the bjw-s/app-template Helm dependency for each chart (replaces
   # the job scripts/update_base.sh used to do for the old local
-  # media-servarr-base dependency). Also automatically tracks the
+  # media-servarr-base dependency). Also automatically tracks every
   # container image referenced in each chart's values.yaml, per
   # https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories#helm-charts
-  # -- this is a live spike to see whether that image-tracking actually
-  # replaces scripts/update_appversion.sh / .github/workflows/auto-update.yaml.
+  # -- this replaced scripts/update_appversion.sh / .github/workflows/auto-update.yaml,
+  # which only ever bumped the cosmetic appVersion/version fields in Chart.yaml
+  # and never touched the actual deployed image tag.
   #
   # All charts share one entry via the `directories` glob. `group-by:
   # dependency-name` makes each group span every matched directory, so a
