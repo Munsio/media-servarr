@@ -44,7 +44,7 @@ Each `charts/<app>/Chart.yaml` drops its dependency on
 ```yaml
 dependencies:
   - name: app-template
-    version: "3.x.x" # pinned to the latest stable app-template release at implementation time
+    version: "5.0.1" # latest stable release as of this writing
     repository: "https://bjw-s-labs.github.io/helm-charts"
 ```
 
@@ -85,23 +85,42 @@ hardcoded name in that app's own `values.yaml` (e.g. `radarr-config`,
 `jellyfin-config`) — never derived from the Helm release name. This name is
 stable and identical across any install of a given chart.
 
-**New behavior:** set `persistence.config.nameOverride: '<app>-config'` in
-each app's default `values.yaml`, so app-template creates (or, on upgrade,
-patches in place) a PVC with the **exact same literal name** the old chart
-used. Because namespace+name are unchanged, `helm upgrade` treats it as the
-same object — same bound PV, zero data loss — with no manual override
-required. Fresh installs get the same familiar name as before.
+**New behavior:** set `persistence.config.forceRename: '<app>-config'` in
+each app's default `values.yaml` (app-template v5's field for pinning a
+resource's exact generated name, confirmed against the real v5.0.1 chart —
+older docs call this `nameOverride`/`existingClaim`, which do not exist in
+the current schema). This makes app-template create (or, on upgrade, patch
+in place) a PVC with the **exact same literal name** the old chart used.
+Because namespace+name are unchanged, `helm upgrade` treats it as the same
+object — same bound PV, zero data loss — with no manual override required.
+Fresh installs get the same familiar name as before.
 
 Non-config volumes (downloads/film/tv/music/ebooks, or an external shared
-claim like the homelab's `data-pv`) keep today's behavior: unset by default
-(→ `emptyDir`), overridable per-deployment via `persistence.<key>.existingClaim`
-— the direct equivalent of today's `deployment.volumes.<key>.persistentVolumeClaim.claimName`
-override pattern.
+claim like the homelab's `data-pv`, which the parent umbrella chart creates
+and owns — not this chart) keep today's behavior: unset by default
+(→ `emptyDir`), overridable per-deployment via a `type: custom` persistence
+entry with a raw `volumeSpec`, e.g.:
+
+```yaml
+persistence:
+  data-pv:
+    type: custom
+    volumeSpec:
+      persistentVolumeClaim:
+        claimName: data-pv
+    globalMounts:
+      - path: /data
+```
+
+This is the exact equivalent of today's
+`deployment.volumes.<key>.persistentVolumeClaim.claimName` override — the
+chart never creates or manages this PVC, it just mounts it by literal name.
 
 **Edge case:** anyone who previously overrode a PVC's key/claim name away
-from the chart default needs to set `persistence.config.existingClaim`
-explicitly to their actual PVC name after upgrading. This is called out in
-each chart's README migration note.
+from the chart default needs to set `persistence.config.forceRename`
+explicitly to their actual PVC name after upgrading (or switch it to a
+`type: custom` entry if they want the chart to never manage it at all).
+This is called out in each chart's README migration note.
 
 ### Validation methodology (pilot chart)
 
