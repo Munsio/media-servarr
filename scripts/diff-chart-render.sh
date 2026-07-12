@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 
-# Render a chart at two different git refs with the same values and diff the
-# rendered Kubernetes manifests. Useful for confirming a chart conversion
-# (e.g. media-servarr-base -> bjw-s/app-template) doesn't change resource
-# identity (names, namespaces, PVC specs, etc.) for a given values file.
+# Render a chart at two different git refs and diff the rendered Kubernetes
+# manifests. Useful for confirming a chart conversion (e.g.
+# media-servarr-base -> bjw-s/app-template) doesn't change resource identity
+# (names, namespaces, PVC specs, etc.).
+#
+# Old and new refs get separate values files by default, since the whole
+# point of a schema conversion is that the values shape *changes* across
+# that boundary — a value meaningful under the old schema (e.g.
+# `persistentVolumeClaims.<chart>-config.storageClassName`) is silently
+# ignored by Helm if handed to the new schema's chart (which expects
+# `app-template.persistence.config.storageClass` instead), and vice versa.
+# Passing the same file for both is fine when both refs share a schema (e.g.
+# diffing two already-converted commits) — that's why a single shared file
+# is still accepted as shorthand.
 #
 # Besides printing a plain unified diff to stdout, this also leaves the two
 # renders behind as an old-commit + uncommitted-new-version in a small git
@@ -11,7 +21,8 @@
 # diff`, `delta`, etc.) can show a rich diff view instead of the raw text
 # dump. The path to that repo is printed at the end.
 #
-# Usage: ./scripts/diff-chart-render.sh <chart> <old-ref> <new-ref> [values-file]
+# Usage: ./scripts/diff-chart-render.sh <chart> <old-ref> <new-ref> [old-values-file] [new-values-file]
+#        (omit both values files, or pass just one to use it for both refs)
 #
 # Requires: helm, git (run inside `nix develop` if you're using this repo's
 # flake devShell for helm).
@@ -19,6 +30,7 @@
 # Examples:
 #   ./scripts/diff-chart-render.sh radarr HEAD~5 HEAD
 #   ./scripts/diff-chart-render.sh radarr HEAD~5 HEAD my-values.yaml
+#   ./scripts/diff-chart-render.sh radarr HEAD~5 HEAD old-schema-values.yaml new-schema-values.yaml
 #
 # For a rich diff view, point lazygit or an editor's git panel at the repo
 # path this script prints at the end, e.g.:
@@ -27,8 +39,8 @@
 
 set -euo pipefail
 
-if [[ $# -lt 3 || $# -gt 4 ]]; then
-  echo "Usage: $0 <chart> <old-ref> <new-ref> [values-file]" >&2
+if [[ $# -lt 3 || $# -gt 5 ]]; then
+  echo "Usage: $0 <chart> <old-ref> <new-ref> [old-values-file] [new-values-file]" >&2
   exit 2
 fi
 
@@ -40,15 +52,17 @@ fi
 CHART=$1
 OLD_REF=$2
 NEW_REF=$3
-VALUES_FILE=${4:-}
+OLD_VALUES_FILE=${4:-}
+NEW_VALUES_FILE=${5:-$OLD_VALUES_FILE}
 
-if [[ -n "$VALUES_FILE" && ! -f "$VALUES_FILE" ]]; then
-  echo "Values file not found: $VALUES_FILE" >&2
-  exit 2
-fi
-if [[ -n "$VALUES_FILE" ]]; then
-  VALUES_FILE=$(realpath "$VALUES_FILE")
-fi
+for f in "$OLD_VALUES_FILE" "$NEW_VALUES_FILE"; do
+  if [[ -n "$f" && ! -f "$f" ]]; then
+    echo "Values file not found: $f" >&2
+    exit 2
+  fi
+done
+[[ -n "$OLD_VALUES_FILE" ]] && OLD_VALUES_FILE=$(realpath "$OLD_VALUES_FILE")
+[[ -n "$NEW_VALUES_FILE" ]] && NEW_VALUES_FILE=$(realpath "$NEW_VALUES_FILE")
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 WORKDIR=$(mktemp -d)
@@ -61,23 +75,23 @@ cleanup() {
 trap cleanup EXIT
 
 render() {
-  local ref=$1 dir=$2 out=$3
+  local ref=$1 dir=$2 out=$3 values_file=$4
 
   git -C "$REPO_ROOT" worktree add -q --detach "$dir" "$ref"
   helm dependency update "$dir/charts/$CHART" > /dev/null
 
-  if [[ -n "$VALUES_FILE" ]]; then
-    helm template "$CHART" "$dir/charts/$CHART" -f "$VALUES_FILE" > "$out"
+  if [[ -n "$values_file" ]]; then
+    helm template "$CHART" "$dir/charts/$CHART" -f "$values_file" > "$out"
   else
     helm template "$CHART" "$dir/charts/$CHART" > "$out"
   fi
 }
 
 echo "Rendering '$CHART' at $OLD_REF..." >&2
-render "$OLD_REF" "$WORKDIR/old" "$WORKDIR/old.yaml"
+render "$OLD_REF" "$WORKDIR/old" "$WORKDIR/old.yaml" "$OLD_VALUES_FILE"
 
 echo "Rendering '$CHART' at $NEW_REF..." >&2
-render "$NEW_REF" "$WORKDIR/new" "$WORKDIR/new.yaml"
+render "$NEW_REF" "$WORKDIR/new" "$WORKDIR/new.yaml" "$NEW_VALUES_FILE"
 
 echo "--- diff ($OLD_REF -> $NEW_REF) ---" >&2
 diff -u "$WORKDIR/old.yaml" "$WORKDIR/new.yaml" || true
