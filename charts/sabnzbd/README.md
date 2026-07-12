@@ -17,6 +17,7 @@ This README covers the basics of customising and installation
   * [Metrics](#metrics)
   * [Advanced](#advanced)
 * [Migrating from v0.x to v1.0.0](#migrating-from-v0x-to-v100)
+* [Migrating from v1.0.x to v1.1.0](#migrating-from-v10x-to-v110)
 * [Upgrading](#upgrading)
 * [Uninstallation](#uninstallation)
 * [Support](#support)
@@ -200,6 +201,12 @@ If you configured custom `application.config` entries beyond the default `sabnzb
 Note also that every value in this chart now lives one level deeper than before, under a top-level `app-template:` key — see "A note on values structure" above.
 
 Metrics were already enabled by default in the previous chart version, and remain enabled by default here — but disabling them now requires three separate toggles instead of one — see the Metrics section above.
+
+## Migrating from v1.0.x to v1.1.0
+
+This version switches the underlying controller from a Deployment to a StatefulSet, to structurally eliminate a `Multi-Attach` error some users hit on the `config` PersistentVolumeClaim during upgrades (a Deployment's rolling update briefly runs the old and new pod at the same time, which conflicts with a `ReadWriteOnce` volume — see [drinkataco/media-servarr#136](https://github.com/drinkataco/media-servarr/issues/136)).
+
+**Your data is unaffected.** The `sabnzbd-config` PVC keeps its exact name and is mounted the same way — this change only affects how the pod is managed, not storage. Since Deployment and StatefulSet are different Kubernetes resource kinds, `helm upgrade` will delete the old Deployment and create a new StatefulSet, causing one extra pod restart during this specific upgrade — no different in effect from any routine version bump.
 
 ## Upgrading
 
