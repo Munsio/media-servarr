@@ -16,7 +16,6 @@ build: package pre-fetch index
 # Lint the Helm charts
 lint:
 	@echo "Linting charts..."
-	helm lint .
 	$(foreach chart,$(CHARTS),helm lint "$(CHARTS_DIR)$(chart)";)
 
 # Test the Helm charts
