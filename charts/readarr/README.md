@@ -21,6 +21,7 @@ This README covers the basics of customising and installation
   * [Metrics](#metrics)
   * [Advanced](#advanced)
 * [Migrating from v0.x to v1.0.0](#migrating-from-v0x-to-v100)
+* [Migrating from v1.0.x to v1.1.0](#migrating-from-v10x-to-v110)
 * [Upgrading](#upgrading)
 * [Uninstallation](#uninstallation)
 * [Support](#support)
