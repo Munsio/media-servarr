@@ -1,4 +1,5 @@
 # Compiled files and directories
 *.tgz
 *.lock
+!flake.lock
 dist/
