@@ -3,6 +3,42 @@ entries:
   bazarr:
   - apiVersion: v2
     appVersion: 1.5.6
+    created: "2026-07-12T17:10:46.814424248Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: Companion application to Sonarr and Radarr to manage and download
+      subtitles
+    digest: 14850848d7897afde2452d2ca2ab4183a6916cbc4f3a72be3a9babad437a0858
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/bazarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/bazarr/icon.png
+    keywords:
+    - subtitles
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    - sonarr
+    - bazarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: bazarr
+    sources:
+    - https://github.com/morpheus65535/Bazarr
+    - https://github.com/linuxserver/docker-bazarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/bazarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/bazarr-1.1.1/bazarr-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 1.5.6
     created: "2026-06-03T11:32:12.586827616Z"
     dependencies:
     - name: media-servarr-base
@@ -1829,6 +1865,42 @@ entries:
   jellyfin:
   - apiVersion: v2
     appVersion: 10.11.11
+    created: "2026-07-12T17:10:46.93503133Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: A free software media system that puts you in control of managing
+      and streaming your media
+    digest: dcaf8b3166e49d722bf3527d698bf28463df408d30bba96f27b18216a500f1cc
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/jellyfin
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/jellyfin/icon.png
+    keywords:
+    - music
+    - tv
+    - television
+    - film
+    - movie
+    - ebooks
+    - manager
+    - stream
+    - media
+    - jellyfin
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: jellyfin
+    sources:
+    - https://github.com/jellyfin/jellyfin
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/jellyfin
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/jellyfin-1.1.1/jellyfin-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 10.11.11
     created: "2026-06-16T16:34:27.821966929Z"
     dependencies:
     - name: media-servarr-base
@@ -2667,6 +2739,38 @@ entries:
   prowlarr:
   - apiVersion: v2
     appVersion: 2.4.0
+    created: "2026-07-12T17:10:47.047544063Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: BitTorrent indexer management
+    digest: eb3d30d545ec79c97b9676db5032d7112d1f36d53e8c8495ed933674396c22f7
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/prowlarr/icon.png
+    keywords:
+    - bittorrent
+    - torrent
+    - download
+    - indexer
+    - prowlarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: prowlarr
+    sources:
+    - https://github.com/Prowlarr/Prowlarr
+    - https://github.com/linuxserver/docker-prowlarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/prowlarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/prowlarr-1.1.1/prowlarr-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 2.4.0
     created: "2026-06-16T16:34:59.894483073Z"
     dependencies:
     - name: media-servarr-base
@@ -3053,6 +3157,40 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/radarr-1.2.0/radarr-1.2.0.tgz
     version: 1.2.0
   - apiVersion: v2
+    appVersion: 6.2.1
+    created: "2026-07-12T17:10:47.207513914Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: Movie collection manager for Usenet and BitTorrent users
+    digest: d208dbf0a793d2accad1f83196008781ab32299424101ef02b1f056da57080e6
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/radarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/radarr/icon.png
+    keywords:
+    - film
+    - movies
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: radarr
+    sources:
+    - https://github.com/Radarr/Radarr
+    - https://github.com/linuxserver/docker-radarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/radarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/radarr-1.1.1/radarr-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
     appVersion: 6.1.1
     created: "2026-06-03T11:32:36.944495386Z"
     dependencies:
@@ -3361,6 +3499,42 @@ entries:
   readarr:
   - apiVersion: v2
     appVersion: 0.4.19-nightly
+    created: "2026-07-12T17:10:47.363842546Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    deprecated: true
+    description: Ebook and audiobook collection manager for Usenet and BitTorrent
+      users
+    digest: abd8e6dd24d78d1c12b68f6948ad0182067d96f5c161fcd70895c12ac6a1bbfe
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/readarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/readarr/icon.png
+    keywords:
+    - ebooks
+    - audiobooks
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - readarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: readarr
+    sources:
+    - https://github.com/Readarr/Readarr
+    - https://github.com/linuxserver/docker-readarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/readarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/readarr-1.1.0/readarr-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 0.4.19-nightly
     created: "2025-10-27T19:02:17.980100773Z"
     dependencies:
     - name: media-servarr-base
@@ -3536,6 +3710,36 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/readarr-0.8.6/readarr-0.8.6.tgz
     version: 0.8.6
   sabnzbd:
+  - apiVersion: v2
+    appVersion: 5.0.4
+    created: "2026-07-12T17:10:47.499128762Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: SABnzbd is a program to download binary files from Usenet servers
+    digest: 78264c2adf9458a7df2eb156e82b0761a58395a70e06ea0fafc9713671a606bd
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/sabnzbd
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/sabnzbd/icon.png
+    keywords:
+    - usenet
+    - newsreader
+    - sabnzbd
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: sabnzbd
+    sources:
+    - https://github.com/sabnzbd/sabnzbd
+    - https://hub.docker.com/r/linuxserver/sabnzbd
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/sabnzbd
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sabnzbd-1.1.1/sabnzbd-1.1.1.tgz
+    version: 1.1.1
   - apiVersion: v2
     appVersion: 5.0.4
     created: "2026-06-16T16:35:25.515152302Z"
@@ -3777,6 +3981,41 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/sabnzbd-0.4.1/sabnzbd-0.4.1.tgz
     version: 0.4.1
   sonarr:
+  - apiVersion: v2
+    appVersion: 4.0.17
+    created: "2026-07-12T17:10:47.614536734Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: Television series manager for Usenet and BitTorrent users
+    digest: 3e4307a490fea1fdbce781c86bd32c6ca763d5128fa609a0f427386151e32cca
+    home: https://github.com/drinkataco/media-servarr/tree/main/charts/sonarr
+    icon: https://github.com/drinkataco/media-servarr/blob/main/charts/sonarr/icon.png
+    keywords:
+    - tv
+    - television
+    - series
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - sonarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@jo.shw.al
+      name: media-servarr
+      url: https://github.com/drinkataco/media-servarr/
+    name: sonarr
+    sources:
+    - https://github.com/Sonarr/Sonarr
+    - https://github.com/linuxserver/docker-sonarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/drinkataco/media-servarr/tree/main/charts/sonarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sonarr-1.1.1/sonarr-1.1.1.tgz
+    version: 1.1.1
   - apiVersion: v2
     appVersion: 4.0.17
     created: "2026-06-03T11:29:30.5275707Z"
@@ -4240,4 +4479,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-06-16T16:35:25.515376363Z"
+generated: "2026-07-12T17:10:47.614795119Z"
