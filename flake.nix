@@ -16,7 +16,6 @@
           packages = with pkgs; [
             kubernetes-helm
             kubectl
-            dasel
           ];
         };
       });
