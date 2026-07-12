@@ -88,7 +88,7 @@ app-template:
           enabled: true
           image:
             repository: ghcr.io/onedr0p/exportarr
-            tag: v1.6.1
+            tag: 2.3.0
           args:
             - sabnzbd
           env:
