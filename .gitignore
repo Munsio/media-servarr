@@ -3,3 +3,6 @@
 *.lock
 !flake.lock
 dist/
+
+# Superpowers planning artifacts (specs/plans) — not meant to be tracked
+docs/superpowers/
