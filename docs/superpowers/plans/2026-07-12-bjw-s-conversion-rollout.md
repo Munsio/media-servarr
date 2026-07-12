@@ -24,7 +24,7 @@
 - Delete each chart's `templates/application.yaml` and `templates/NOTES.txt` (stale, call the removed `media-servarr-base.*` helpers).
 - Metrics sidecar (exportarr) pattern, where applicable: `controllers.main.containers.metrics` (image `ghcr.io/onedr0p/exportarr:v1.6.1`, `args: [<app>]`, env `PORT`/`URL`/`APIKEY`, `resources: {requests: {cpu: 100m, memory: 64Mi}, limits: {cpu: 500m, memory: 256Mi}}`, HTTP probes on `/healthz` via the `monitoring` port), a `service.main.ports.monitoring` entry, and a `serviceMonitor.main` entry — all three gated by their own `enabled` flag (no single meta-toggle exists in app-template; this is an accepted, already-documented behavior change from the pilot). The sidecar reaches the app via `http://localhost:<port>/<urlBase>` (same pod, no need for app-template's internal naming helpers).
 - Each task's README rewrite should mirror `charts/radarr/README.md`'s current structure (already converted, at HEAD) — same section order (`### A note on values structure`, `### Secrets`, `### Application Configuration`, `### Volumes`, `### Ingress`, `### Metrics` where applicable, `### Advanced`, then a `## Migrating from v0.x to v1.0.0` section before `## Upgrading`) — substituting this chart's own specific values (secret names, config filename/content, persistence items, ports, ingress path). Read `charts/radarr/README.md` directly for the exact prose/wording pattern to follow; every concrete value to substitute is given in this chart's task below.
-- Validate each conversion with `./scripts/diff-chart-render.sh <chart> <old-ref> HEAD <scratch-values-file>` (added in the radarr pilot), confirming the rendered PersistentVolumeClaim's `metadata.name`, `metadata.namespace`, `spec.accessModes`, `spec.resources.requests.storage`, and `spec.storageClassName` are identical between old and new. `<old-ref>` is the commit immediately before this task's own conversion commit (i.e. `HEAD` at the start of that task, before any of its changes are committed).
+- Validate each conversion with `./scripts/diff-chart-render.sh <chart> <old-ref> HEAD <old-values-file> <new-values-file>` (added in the radarr pilot; the two-values-file form added after Task 1 of this rollout found that a single shared file only speaks one schema — the old chart silently ignores keys it doesn't recognize, e.g. the new schema's `app-template.persistence.config.storageClass` means nothing to a chart still on the old `persistentVolumeClaims.<chart>-config.storageClassName` shape, and vice versa). Confirm the rendered PersistentVolumeClaim's `metadata.name`, `metadata.namespace`, `spec.accessModes`, `spec.resources.requests.storage`, and `spec.storageClassName` are identical between old and new. `<old-ref>` is the commit immediately before this task's own conversion commit — since `diff-chart-render.sh` renders from committed trees via `git worktree add`, it cannot see uncommitted changes, so run this validation step *after* committing the conversion, using that commit as `HEAD`/`<new-ref>` and the prior commit as `<old-ref>`.
 - The homelab GitOps repo at `~/Documents/projects/homelab/kubernetes/servarr` is a **read-only reference** — copy values out of it into scratch files, never edit files there. Never put a real secret value from that repo into a committed file in this repo (this repo is public) — use an obviously-fake placeholder string instead, exactly as was done for radarr's plan (`example-not-a-real-api-key`).
 
 ---
@@ -276,9 +276,20 @@ nix develop --command bash -c '
 ' > /dev/null && echo "RENDER OK"
 ```
 
-Create a scratch values file for the diff validation (fake secret, mirrors the homelab's real `bazarr-values.yaml` shape read-only, without copying the real API key):
+Create two scratch values files for the diff validation — one per schema, since a single shared file only speaks one side's schema and the other side silently ignores keys it doesn't recognize (fake secret in both, mirrors the homelab's real `bazarr-values.yaml` shape read-only, without copying the real API key):
 
-`/tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/bazarr-diff-values.yaml`:
+Old-schema (`.../scratchpad/bazarr-old-values.yaml`):
+
+```yaml
+secrets:
+  - name: apiKey
+    value: example-not-a-real-api-key
+persistentVolumeClaims:
+  bazarr-config:
+    storageClassName: ceph-block
+```
+
+New-schema (`.../scratchpad/bazarr-new-values.yaml`):
 
 ```yaml
 app-template:
@@ -291,13 +302,13 @@ app-template:
       storageClass: ceph-block
 ```
 
-Then, using this task's pre-conversion commit as `<old-ref>` (record `git rev-parse HEAD` before Step 1's commit):
+`diff-chart-render.sh` renders from committed trees, so run this *after* committing this task's conversion (Step 6), using the pre-conversion commit as `<old-ref>` (`git rev-parse HEAD` recorded before Step 1) and the new conversion commit as `<new-ref>`:
 
 ```bash
-nix develop --command bash -c './scripts/diff-chart-render.sh bazarr <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/bazarr-diff-values.yaml'
+nix develop --command bash -c './scripts/diff-chart-render.sh bazarr <old-ref> <new-ref> /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/bazarr-old-values.yaml /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/bazarr-new-values.yaml'
 ```
 
-Confirm in the diff (or the rich `lazygit`/`zeditor` view the script prints a path for) that the PersistentVolumeClaim's `metadata.name` (`bazarr-config`), `metadata.namespace`, `spec.accessModes`, `spec.resources.requests.storage` (`1Gi`), and `spec.storageClassName` (`ceph-block`) are identical between old and new. Clean up the scratch values file afterward.
+Confirm in the diff (or the rich `lazygit`/`zeditor` view the script prints a path for) that the PersistentVolumeClaim's `metadata.name` (`bazarr-config`), `metadata.namespace`, `spec.accessModes`, `spec.resources.requests.storage` (`1Gi`), and `spec.storageClassName` (`ceph-block`) are identical between old and new. Clean up the scratch values files afterward.
 
 - [ ] **Step 5: Rewrite `charts/bazarr/README.md`**
 
@@ -476,7 +487,15 @@ nix develop --command bash -c '
 ' > /dev/null && echo "RENDER OK"
 ```
 
-Scratch values file (`.../scratchpad/jellyfin-diff-values.yaml`), mirroring the homelab's real values shape (no secrets to fake here — jellyfin has none):
+Old-schema scratch values (`.../scratchpad/jellyfin-old-values.yaml`; no secrets to fake here — jellyfin has none):
+
+```yaml
+persistentVolumeClaims:
+  jellyfin-config:
+    storageClassName: ceph-block
+```
+
+New-schema scratch values (`.../scratchpad/jellyfin-new-values.yaml`):
 
 ```yaml
 app-template:
@@ -486,7 +505,7 @@ app-template:
 ```
 
 ```bash
-nix develop --command bash -c './scripts/diff-chart-render.sh jellyfin <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/jellyfin-diff-values.yaml'
+nix develop --command bash -c './scripts/diff-chart-render.sh jellyfin <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/jellyfin-old-values.yaml /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/jellyfin-new-values.yaml'
 ```
 
 Confirm PVC `metadata.name: jellyfin-config`, matching namespace, `ReadWriteOnce`, `1Gi`, `ceph-block` across old and new. Clean up the scratch file afterward.
@@ -734,7 +753,18 @@ nix develop --command bash -c '
 ' > /dev/null && echo "RENDER OK"
 ```
 
-Scratch values (`.../scratchpad/prowlarr-diff-values.yaml`):
+Old-schema scratch values (`.../scratchpad/prowlarr-old-values.yaml`):
+
+```yaml
+secrets:
+  - name: apiKey
+    value: example-not-a-real-api-key
+persistentVolumeClaims:
+  prowlarr-config:
+    storageClassName: ceph-block
+```
+
+New-schema scratch values (`.../scratchpad/prowlarr-new-values.yaml`):
 
 ```yaml
 app-template:
@@ -748,7 +778,7 @@ app-template:
 ```
 
 ```bash
-nix develop --command bash -c './scripts/diff-chart-render.sh prowlarr <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/prowlarr-diff-values.yaml'
+nix develop --command bash -c './scripts/diff-chart-render.sh prowlarr <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/prowlarr-old-values.yaml /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/prowlarr-new-values.yaml'
 ```
 
 Confirm PVC `metadata.name: prowlarr-config`, matching namespace/accessModes/size/storageClass. Clean up the scratch file afterward.
@@ -1006,7 +1036,18 @@ nix develop --command bash -c '
 ' > /dev/null && echo "RENDER OK"
 ```
 
-Scratch values (`.../scratchpad/readarr-diff-values.yaml`):
+Old-schema scratch values (`.../scratchpad/readarr-old-values.yaml`):
+
+```yaml
+secrets:
+  - name: apiKey
+    value: example-not-a-real-api-key
+persistentVolumeClaims:
+  readarr-config:
+    storageClassName: ceph-block
+```
+
+New-schema scratch values (`.../scratchpad/readarr-new-values.yaml`):
 
 ```yaml
 app-template:
@@ -1027,7 +1068,7 @@ app-template:
 ```
 
 ```bash
-nix develop --command bash -c './scripts/diff-chart-render.sh readarr <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/readarr-diff-values.yaml'
+nix develop --command bash -c './scripts/diff-chart-render.sh readarr <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/readarr-old-values.yaml /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/readarr-new-values.yaml'
 ```
 
 Confirm PVC `metadata.name: readarr-config`, matching namespace/accessModes/size/storageClass. Clean up the scratch file afterward.
@@ -1305,7 +1346,22 @@ nix develop --command bash -c '
 
 Confirm the rendered manifests include the metrics container, the `monitoring` service port, and the ServiceMonitor **enabled by default** (unlike the other 5 charts in this rollout) — this is intentional, not a bug, per this chart's existing behavior.
 
-Scratch values (`.../scratchpad/sabnzbd-diff-values.yaml`):
+Old-schema scratch values (`.../scratchpad/sabnzbd-old-values.yaml`):
+
+```yaml
+secrets:
+  - name: apiKey
+    value: example-not-a-real-api-key
+  - name: nzbKey
+    value: example-not-a-real-nzb-key
+  - name: newsreaderServerPassword
+    value: example-not-a-real-password
+persistentVolumeClaims:
+  sabnzbd-config:
+    storageClassName: ceph-block
+```
+
+New-schema scratch values (`.../scratchpad/sabnzbd-new-values.yaml`):
 
 ```yaml
 app-template:
@@ -1328,7 +1384,7 @@ app-template:
 ```
 
 ```bash
-nix develop --command bash -c './scripts/diff-chart-render.sh sabnzbd <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/sabnzbd-diff-values.yaml'
+nix develop --command bash -c './scripts/diff-chart-render.sh sabnzbd <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/sabnzbd-old-values.yaml /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/sabnzbd-new-values.yaml'
 ```
 
 Confirm PVC `metadata.name: sabnzbd-config`, matching namespace/accessModes/size/storageClass. Clean up the scratch file afterward.
@@ -1589,7 +1645,18 @@ nix develop --command bash -c '
 ' > /dev/null && echo "RENDER OK"
 ```
 
-Scratch values (`.../scratchpad/sonarr-diff-values.yaml`):
+Old-schema scratch values (`.../scratchpad/sonarr-old-values.yaml`):
+
+```yaml
+secrets:
+  - name: apiKey
+    value: example-not-a-real-api-key
+persistentVolumeClaims:
+  sonarr-config:
+    storageClassName: ceph-block
+```
+
+New-schema scratch values (`.../scratchpad/sonarr-new-values.yaml`):
 
 ```yaml
 app-template:
@@ -1610,7 +1677,7 @@ app-template:
 ```
 
 ```bash
-nix develop --command bash -c './scripts/diff-chart-render.sh sonarr <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/sonarr-diff-values.yaml'
+nix develop --command bash -c './scripts/diff-chart-render.sh sonarr <old-ref> HEAD /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/sonarr-old-values.yaml /tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/sonarr-new-values.yaml'
 ```
 
 Confirm PVC `metadata.name: sonarr-config`, matching namespace/accessModes/size/storageClass. Clean up the scratch file afterward. Note: the homelab's real `sonarr-values.yaml` also sets `serviceAccount.create: true` with `imagePullSecrets: [{name: github-private}]` — this maps to `app-template.global.imagePullSecrets` on the new schema, not a per-chart default; no change needed in this chart's own `values.yaml` for that (it's a deployment-time override, out of scope for the chart's defaults, same as radarr's pilot).
