@@ -1,5 +1,8 @@
 # Compiled files and directories
 *.tgz
 *.lock
+!flake.lock
 dist/
-.cr-release-packages
+
+# Superpowers planning artifacts (specs/plans) — not meant to be tracked
+docs/superpowers/

@@ -1,7 +1,7 @@
 apiVersion: 'v2'
 name: 'readarr'
 description: 'Ebook and audiobook collection manager for Usenet and BitTorrent users'
-home: 'https://github.com/drinkataco/media-servarr/tree/main/charts/readarr'
+home: 'https://github.com/Munsio/media-servarr/tree/main/charts/readarr'
 keywords:
   - 'ebooks'
   - 'audiobooks'
@@ -10,21 +10,22 @@ keywords:
   - 'usenet'
   - 'manager'
   - 'readarr'
-kubeversion: ">=1.24.0-0"
+kubeVersion: ">=1.28.0-0"
 type: 'application'
-version: 0.8.6
-appVersion: nightly-0.4.13.2754-ls385
-icon: 'https://github.com/drinkataco/media-servarr/blob/main/charts/readarr/icon.png'
+version: 1.1.0
+appVersion: 0.4.19-nightly
+icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/readarr/icon.png'
+deprecated: true
 dependencies:
-  - name: 'media-servarr-base'
-    version: 0.7.0
-    repository: "file://../.."
+  - name: 'app-template'
+    version: '5.0.1'
+    repository: 'https://bjw-s-labs.github.io/helm-charts'
 maintainers:
   - name: 'media-servarr'
-    email: 'git@jo.shw.al'
-    url: 'https://github.com/drinkataco/media-servarr/'
+    email: 'git@treml.dev'
+    url: 'https://github.com/Munsio/media-servarr/'
 sources:
   - 'https://github.com/Readarr/Readarr'
   - 'https://github.com/linuxserver/docker-readarr'
   - 'https://ghcr.io/onedr0p/exportarr'
-  - 'https://github.com/drinkataco/media-servarr/tree/main/charts/readarr'
+  - 'https://github.com/Munsio/media-servarr/tree/main/charts/readarr'

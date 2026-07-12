@@ -9,11 +9,13 @@ This README covers the basics of customising and installation
 <!-- vim-md-toc format=bullets ignore=^TODO$ -->
 * [Installation](#installation)
 * [Configuration](#configuration)
+  * [A note on values structure](#a-note-on-values-structure)
   * [Application Configuration](#application-configuration)
   * [Volumes](#volumes)
   * [Ingress](#ingress)
-  * [Metrics](#metrics)
   * [Advanced](#advanced)
+* [Migrating from v0.x to v1.0.0](#migrating-from-v0x-to-v100)
+* [Migrating from v1.0.x to v1.1.0](#migrating-from-v10x-to-v110)
 * [Upgrading](#upgrading)
 * [Uninstallation](#uninstallation)
 * [Support](#support)
@@ -24,7 +26,7 @@ This README covers the basics of customising and installation
 Install this helm chart using the following command:
 
 ```bash
-helm repo add mediar-servarr https://media-servarr.shw.al/charts
+helm repo add media-servarr https://munsio.github.io/media-servarr/
 
 helm install jellyfin media-servarr/jellyfin
 ```
@@ -35,81 +37,91 @@ Pointing the host `media-servarr.local` to your kubernetes cluster will then all
 
 Here is some example of some configuration you may want to override (and include in installation with `-f myvalues.yaml`
 
+### A note on values structure
+
+This chart depends on [bjw-s's app-template](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) as a subchart rather than being that chart directly. Because of that, every app-template value — in this chart's own `values.yaml` and in any override file you write — must be nested under a top-level `app-template:` key, as shown in every example below.
+
 ### Application Configuration
 
-By default, base configuration is defined using a ConfigMap - defined by default in `./values.yaml` in `application.config`. You can change values in the contents, such as the url base in your custom `values.yaml`
-
-Jellyfin has multiple config files which we can create ConfigMaps for. By default, we manage network.xml and system.xml, but we could also encoding.xml.
+The base `network.xml` is defined as a ConfigMap in `app-template.configMaps.config.data` in `./values.yaml`. You can override the contents in your own values file, for example to change the URL base:
 
 ```yaml
-application:
-  port: 8096 # default UI port
-  urlBase: 'jellyfin' # default web base path
-  config:
-    - filename: 'network.xml'
-      contents: |
-        # We could change the BaseURL or Port here
-        ...
-      mountPath: '/config/config/network.xml'
-    # System Options
-    - filename: 'system.xml'
-      contents: |
-        # We could add <EnableMetrics>true</EnableMetrics> to enable prometheus metrics
-        # It is recommended to add <IsStartupWizardCompleted>true</IsStartupWizardCompleted> to
-        #  prevent the wizard running again after initial setup.
-        ...
-      mountPath: '/config/config/system.xml'
-    - filename: 'encoding.xml'
-      contents: |
-        ...
-      mountPath: '/config/config/encoding.xml'
+app-template:
+  configMaps:
+    config:
+      data:
+        network.xml: |
+          <?xml version="1.0" encoding="utf-8"?>
+          <NetworkConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <BaseUrl>jellyfin</BaseUrl>
+            <HttpServerPortNumber>8096</HttpServerPortNumber>
+            <EnableHttps>false</EnableHttps>
+            <PublicPort>8096</PublicPort>
+            <EnableRemoteAccess>true</EnableRemoteAccess>
+          </NetworkConfiguration>
 ```
 
-You can prevent a ConfigMap being create and the configuration being managed as a kubernetes resource by defing the config as null. For example;
-
-```yaml
-application:
-  ...
-  config: null
-```
+Unlike some of the other charts in this repository, Jellyfin's config has no `$placeholder` secret values to substitute, so this ConfigMap is mounted directly at `/config/config/network.xml` — there is no init container regenerating it on pod start.
 
 ### Volumes
 
-The following volumes are available by default:
+Five user-facing persistence items are defined:
 
-- **config** - General config data, where the sqlite database exists, for example
-- **ebooks** - Location of ebooks
-- **film** - Location of movies
-- **music** - Location of music
-- **television** - Location of TV shows
+- **config** - General config data (where the sqlite database lives), backed by a PersistentVolumeClaim named `jellyfin-config`
+- **ebooks** - Location of ebooks (plain `emptyDir` by default)
+- **film** - Location of movies (plain `emptyDir` by default)
+- **music** - Location of music (plain `emptyDir` by default)
+- **television** - Location of TV shows (plain `emptyDir` by default)
+
+(`values.yaml` also defines `raw-config`, an additional internal entry used purely to mount `network.xml` from the ConfigMap described above — it isn't meant to be configured directly.)
 
 ```yaml
-deployment:
-  ...
-  volumes:
-    config: # The key will be the volume name
-      persistentVolumeClaim:
-        name: 'jellyfin-config'
+app-template:
+  persistence:
+    config:
+      type: persistentVolumeClaim
+      forceRename: jellyfin-config
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      storageClass: your-storage-class
     ebooks:
-      nfs:
-        server: 'fileserver.local'
-        path: '/srv/media/ebooks/'
+      type: custom
+      volumeSpec:
+        nfs:
+          server: fileserver.local
+          path: /srv/media/ebooks/
     film:
+      type: custom
+      volumeSpec:
+        nfs:
+          server: fileserver.local
+          path: /srv/media/film/
     music:
+      type: custom
+      volumeSpec:
+        nfs:
+          server: fileserver.local
+          path: /srv/media/music/
     television:
+      type: custom
+      volumeSpec:
+        nfs:
+          server: fileserver.local
+          path: /srv/media/tv/
 ```
 
-By default, a PersistentVolumeClaim will be provisioned for the `config`, but `emptyDir: {}` will be used for ebooks, film, music, and television, unless otherwise specified in your `values.yaml`
+To point at a PVC that already exists and that this chart should never create or manage (e.g. a large shared media volume provisioned elsewhere), use a `type: custom` entry with a raw `volumeSpec` instead:
 
 ```yaml
-persistentVolumeClaims:
-  jellyfin-config:
-    accessMode: 'ReadWriteOnce'
-    requestStorage: '1Gi'
-    storageClassName: 'manual'
-    selector:
-      matchLabels:
-        type: 'local'
+app-template:
+  persistence:
+    media:
+      type: custom
+      volumeSpec:
+        persistentVolumeClaim:
+          claimName: my-existing-pvc
+      globalMounts:
+        - path: /data
 ```
 
 ### Ingress
@@ -117,26 +129,46 @@ persistentVolumeClaims:
 Ingress can be enabled, and you can customise the default host, path, and TLS settings:
 
 ```yaml
-ingress:
-  enabled: true
-  host: 'example.com'
-  tls:
-    # Your TLS settings...
+app-template:
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: example.com
+          paths:
+            - path: /jellyfin
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - hosts: ['example.com']
+          secretName: example-com-tls
 ```
-
-### Metrics
-
-Prometheus metrics are enabled by placing `<EnableMetrics>true</EnableMetrics>` in System.xml.
-
-Read more about this functionality in the [official documentation](https://jellyfin.org/docs/general/networking/monitoring/)
 
 ### Advanced
 
-Other supported deployment configuration include `deployment.nodeSelector`, `deployment.tolerations`, and `deployment.affinity`
+See the [bjw-s app-template documentation](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) for the full set of available configuration, including `app-template.controllers.main.pod.nodeSelector`, `app-template.controllers.main.pod.tolerations`, `app-template.controllers.main.pod.affinity`, container ports, environment variables, and `serviceAccount`.
 
-You can also adjust container ports, environment variables (such as adding `PGID` and `PUID`) and define a `serviceAccount`.
+Jellyfin's own Prometheus metrics toggle (`<EnableMetrics>true</EnableMetrics>` in `system.xml`) is unrelated to this chart's schema and out of scope here — see the [official documentation](https://jellyfin.org/docs/general/networking/monitoring/) if you want to enable it.
 
-Have a look at the parent charts default `values.yaml` for a comprehensive list of available config.
+## Migrating from v0.x to v1.0.0
+
+Version 1.0.0 replaces the chart's internal templating with [bjw-s's app-template](https://bjw-s-labs.github.io/helm-charts/docs/app-template/). The values schema is completely different — see the Configuration section above for the new shape.
+
+**Your existing data is safe.** The `config` PersistentVolumeClaim keeps its exact original name (`jellyfin-config`) by default, so a normal `helm upgrade` re-adopts the same PVC and bound volume without recreating it — no manual steps needed for a stock install.
+
+If you previously renamed the config PVC away from the default (e.g. via a custom `persistentVolumeClaims` key), set `app-template.persistence.config.forceRename` to your actual PVC name after upgrading, or switch it to a `type: custom` entry (see Volumes above) if you'd rather the chart never manage that PVC's lifecycle at all.
+
+If you configured custom `application.config` entries beyond the default `network.xml` (e.g. `system.xml` or `encoding.xml`), you'll need to translate them manually to `app-template.configMaps.config.data` plus a corresponding mount under `app-template.persistence.raw-config.advancedMounts` — see the Application Configuration section above for the pattern.
+
+Note also that every value in this chart now lives one level deeper than before, under a top-level `app-template:` key — see "A note on values structure" above.
+
+## Migrating from v1.0.x to v1.1.0
+
+This version switches the underlying controller from a Deployment to a StatefulSet, to structurally eliminate a `Multi-Attach` error some users hit on the `config` PersistentVolumeClaim during upgrades (a Deployment's rolling update briefly runs the old and new pod at the same time, which conflicts with a `ReadWriteOnce` volume — see [drinkataco/media-servarr#136](https://github.com/drinkataco/media-servarr/issues/136)).
+
+**Your data is unaffected.** The `jellyfin-config` PVC keeps its exact name and is mounted the same way — this change only affects how the pod is managed, not storage. Since Deployment and StatefulSet are different Kubernetes resource kinds, `helm upgrade` will delete the old Deployment and create a new StatefulSet, causing one extra pod restart during this specific upgrade — no different in effect from any routine version bump.
 
 ## Upgrading
 

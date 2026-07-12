@@ -8,7 +8,7 @@ DIST := dist/charts
 CHARTS ?= $(shell ls -d $(CHARTS_DIR)/*/ | xargs -n 1 basename)
 
 # Location of Repo
-HELM_REPO ?= https://media-servarr.shw.al/charts
+HELM_REPO ?= https://munsio.github.io/media-servarr
 
 # Default target
 build: package pre-fetch index
@@ -16,7 +16,6 @@ build: package pre-fetch index
 # Lint the Helm charts
 lint:
 	@echo "Linting charts..."
-	helm lint .
 	$(foreach chart,$(CHARTS),helm lint "$(CHARTS_DIR)$(chart)";)
 
 # Test the Helm charts
