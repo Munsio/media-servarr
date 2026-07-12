@@ -42,6 +42,7 @@ app-template:
 
   controllers:
     main:
+      type: statefulset
       initContainers:
         prepare-config:
           image:
