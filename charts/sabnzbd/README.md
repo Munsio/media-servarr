@@ -77,19 +77,19 @@ app-template:
           download_dir = Downloads/incomplete
           complete_dir = Downloads/complete
           host_whitelist =
-          [servers]
-          [[yournewsreader.example.org]]
-          name = yournewsreader.example.org
-          displayname = yourNewsReader
-          host = yournewsreader.example.org
-          port = 563
-          username = username
-          password = $newsreaderServerPassword
-          connections = 8
-          ssl = 1
-          ssl_verify = 2
-          enable = 1
-          priority = 0
+          # [servers]
+          # [[yournewsreader.example.org]]
+          # name = yournewsreader.example.org
+          # displayname = yourNewsReader
+          # host = yournewsreader.example.org
+          # port = 563
+          # username = username
+          # password = $newsreaderServerPassword
+          # connections = 8
+          # ssl = 1
+          # ssl_verify = 2
+          # enable = 1
+          # priority = 0
 ```
 
 The rendered config is regenerated from this ConfigMap (with `$apiKey`, `$nzbKey`, and `$newsreaderServerPassword` all substituted from the Secret above) on every pod start via an init container — it is not stored on the persistent `config` volume.
