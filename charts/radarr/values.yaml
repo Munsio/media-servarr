@@ -50,7 +50,7 @@ app-template:
       containers:
         main:
           image:
-            repository: lscr.io/linuxserver/radarr
+            repository: ghcr.io/linuxserver/radarr
             tag: "6.2.1"
           env:
             PGID: "1000"
