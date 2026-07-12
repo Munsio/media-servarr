@@ -68,17 +68,22 @@ jobs:
 
           app_version=$(awk '/^appVersion:/ {print $2}' "./charts/${{ matrix.name }}/Chart.yaml")
 
-          BRANCH_NAME="update-${{ matrix.name }}-${app_version}"
-          COMMIT_MSG="New app version found for ${{ matrix.name }}"
+          # Branch name deliberately excludes the app version: peter-evans/create-pull-request
+          # only updates an existing open PR in place if the branch name is stable across runs.
+          # Including the version here meant every new upstream release opened a brand-new PR
+          # instead of updating the one already open for this chart.
+          BRANCH_NAME="update-${{ matrix.name }}"
+          COMMIT_MSG="New app version found for ${{ matrix.name }}: ${app_version}"
+          echo "APP_VERSION=$app_version" >> "$GITHUB_ENV"
           echo "BRANCH_NAME=$BRANCH_NAME" >> "$GITHUB_ENV"
-          echo "COMMIT_MSG=$BRANCH_NAME" >> "$GITHUB_ENV"
+          echo "COMMIT_MSG=$COMMIT_MSG" >> "$GITHUB_ENV"
 
       - name: 'Create Pull Request'
         if: env.CHANGES_FOUND == 'true'
         uses: 'peter-evans/create-pull-request@v7'
         with:
           commit-message: ${{ env.COMMIT_MSG }}
-          title: "⭐️ New App Version: Update ${{ matrix.name }}"
+          title: "⭐️ New App Version: Update ${{ matrix.name }} to ${{ env.APP_VERSION }}"
           body: 'Automated Workflow. New App Version found for Chart'
           branch: ${{ env.BRANCH_NAME }}
           base: ${{ github.event.repository.default_branch }}
