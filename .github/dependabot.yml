@@ -7,31 +7,16 @@ updates:
   # https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories#helm-charts
   # -- this is a live spike to see whether that image-tracking actually
   # replaces scripts/update_appversion.sh / .github/workflows/auto-update.yaml.
+  #
+  # All charts share one entry via the `directories` glob. `group-by:
+  # dependency-name` makes each group span every matched directory, so a
+  # single dependency (e.g. exportarr, or the alpine base image) bumped in
+  # several charts on the same day produces one PR instead of one per chart.
   - package-ecosystem: 'helm'
-    directory: '/charts/radarr'
+    directories:
+      - '/charts/*'
     schedule:
       interval: 'daily'
-  - package-ecosystem: 'helm'
-    directory: '/charts/bazarr'
-    schedule:
-      interval: 'daily'
-  - package-ecosystem: 'helm'
-    directory: '/charts/jellyfin'
-    schedule:
-      interval: 'daily'
-  - package-ecosystem: 'helm'
-    directory: '/charts/prowlarr'
-    schedule:
-      interval: 'daily'
-  - package-ecosystem: 'helm'
-    directory: '/charts/readarr'
-    schedule:
-      interval: 'daily'
-  - package-ecosystem: 'helm'
-    directory: '/charts/sabnzbd'
-    schedule:
-      interval: 'daily'
-  - package-ecosystem: 'helm'
-    directory: '/charts/sonarr'
-    schedule:
-      interval: 'daily'
+    groups:
+      helm-dependencies:
+        group-by: 'dependency-name'
