@@ -252,6 +252,7 @@ EOF
 **Files:**
 - Modify: `charts/radarr/Chart.yaml`
 - Modify: `charts/radarr/values.yaml` (full rewrite)
+- Delete: `charts/radarr/templates/application.yaml`, `charts/radarr/templates/NOTES.txt` (leftovers that call the now-removed `media-servarr-base.*` helpers — `helm template` fails immediately otherwise)
 
 **Interfaces:**
 - Consumes: nothing from Task 1.
@@ -309,166 +310,171 @@ Note: `kubeversion` (lowercase v, the old base chart's own field) becomes `kubeV
 Replace its full contents with:
 
 ```yaml
-# Default values for the radarr chart, consumed by the bjw-s/app-template dependency.
+# Default values for the radarr chart. app-template is a Helm chart *dependency*
+# here (see Chart.yaml), not the chart being installed directly — Helm only
+# passes a subchart the slice of these values nested under a key matching the
+# subchart's name. Everything below therefore lives under `app-template:`.
 # See https://bjw-s-labs.github.io/helm-charts/docs/app-template/ for the full schema.
 
-secrets:
-  radarr:
-    stringData:
-      apiKey: ''
+app-template:
+  secrets:
+    radarr:
+      stringData:
+        apiKey: ''
 
-configMaps:
-  config:
-    data:
-      config.xml: |
-        <Config>
-          <LogLevel>info</LogLevel>
-          <EnableSsl>False</EnableSsl>
-          <Port>7878</Port>
-          <UrlBase>radarr</UrlBase>
-          <BindAddress>*</BindAddress>
-          <ApiKey>$apiKey</ApiKey>
-          <AnalyticsEnabled>False</AnalyticsEnabled>
-          <AuthenticationMethod>External</AuthenticationMethod>
-          <UpdateMechanism>Docker</UpdateMechanism>
-          <Branch>master</Branch>
-          <InstanceName>Radarr</InstanceName>
-        </Config>
+  configMaps:
+    config:
+      data:
+        config.xml: |
+          <Config>
+            <LogLevel>info</LogLevel>
+            <EnableSsl>False</EnableSsl>
+            <Port>7878</Port>
+            <UrlBase>radarr</UrlBase>
+            <BindAddress>*</BindAddress>
+            <ApiKey>$apiKey</ApiKey>
+            <AnalyticsEnabled>False</AnalyticsEnabled>
+            <AuthenticationMethod>External</AuthenticationMethod>
+            <UpdateMechanism>Docker</UpdateMechanism>
+            <Branch>master</Branch>
+            <InstanceName>Radarr</InstanceName>
+          </Config>
 
-controllers:
-  main:
-    initContainers:
-      prepare-config:
-        image:
-          repository: alpine
-          tag: "3.20"
-        command: ["/bin/sh"]
-        args:
-          - -c
-          - |
-            sed -e "s/\$apiKey/$apiKey/g" /config-map/config.xml > /config-processed/config.xml
-        env:
-          apiKey:
-            valueFrom:
-              secretKeyRef:
-                name: radarr
-                key: apiKey
-    containers:
-      main:
-        image:
-          repository: lscr.io/linuxserver/radarr
-          tag: "5.27.5"
-        env:
-          PGID: "1000"
-          PUID: "1000"
-        ports:
-          - name: http
-            containerPort: 7878
-      metrics:
-        enabled: false
-        image:
-          repository: ghcr.io/onedr0p/exportarr
-          tag: v1.6.1
-        args:
-          - radarr
-        env:
-          PORT: "9704"
-          URL: "http://localhost:7878/radarr"
-          APIKEY:
-            valueFrom:
-              secretKeyRef:
-                name: radarr
-                key: apiKey
-        ports:
-          - name: monitoring
-            containerPort: 9704
-        probes:
-          liveness:
-            enabled: true
-            type: HTTP
-            path: /healthz
-            port: monitoring
-          readiness:
-            enabled: true
-            type: HTTP
-            path: /healthz
-            port: monitoring
-        resources:
-          requests:
-            cpu: 100m
-            memory: 64Mi
-          limits:
-            cpu: 500m
-            memory: 256Mi
-
-service:
-  main:
-    controller: main
-    ports:
-      http:
-        port: 7878
-      monitoring:
-        enabled: false
-        port: 9704
-
-serviceMonitor:
-  main:
-    enabled: false
-    endpoints:
-      - port: monitoring
-        interval: 4m
-        scrapeTimeout: 90s
-        path: /metrics
-
-ingress:
-  main:
-    enabled: true
-    className: ""
-    annotations: {}
-    hosts:
-      - host: media-servarr.local
-        paths:
-          - path: /radarr
-            pathType: Prefix
-            service:
-              identifier: main
-              port: http
-
-persistence:
-  config:
-    type: persistentVolumeClaim
-    forceRename: radarr-config
-    accessMode: ReadWriteOnce
-    size: 1Gi
-    globalMounts:
-      - path: /config
-  raw-config:
-    type: configMap
-    identifier: config
-    advancedMounts:
-      main:
+  controllers:
+    main:
+      initContainers:
         prepare-config:
-          - path: /config-map
-  processed-config:
-    type: emptyDir
-    advancedMounts:
-      main:
-        prepare-config:
-          - path: /config-processed
+          image:
+            repository: alpine
+            tag: "3.20"
+          command: ["/bin/sh"]
+          args:
+            - -c
+            - |
+              sed -e "s/\$apiKey/$apiKey/g" /config-map/config.xml > /config-processed/config.xml
+          env:
+            apiKey:
+              valueFrom:
+                secretKeyRef:
+                  name: radarr
+                  key: apiKey
+      containers:
         main:
-          - path: /config/config.xml
-            subPath: config.xml
-  downloads:
-    type: emptyDir
-    globalMounts:
-      - path: /downloads
-  film:
-    type: emptyDir
-    globalMounts:
-      - path: /film
+          image:
+            repository: lscr.io/linuxserver/radarr
+            tag: "5.27.5"
+          env:
+            PGID: "1000"
+            PUID: "1000"
+          ports:
+            - name: http
+              containerPort: 7878
+        metrics:
+          enabled: false
+          image:
+            repository: ghcr.io/onedr0p/exportarr
+            tag: v1.6.1
+          args:
+            - radarr
+          env:
+            PORT: "9704"
+            URL: "http://localhost:7878/radarr"
+            APIKEY:
+              valueFrom:
+                secretKeyRef:
+                  name: radarr
+                  key: apiKey
+          ports:
+            - name: monitoring
+              containerPort: 9704
+          probes:
+            liveness:
+              enabled: true
+              type: HTTP
+              path: /healthz
+              port: monitoring
+            readiness:
+              enabled: true
+              type: HTTP
+              path: /healthz
+              port: monitoring
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 7878
+        monitoring:
+          enabled: false
+          port: 9704
+
+  serviceMonitor:
+    main:
+      enabled: false
+      endpoints:
+        - port: monitoring
+          interval: 4m
+          scrapeTimeout: 90s
+          path: /metrics
+
+  ingress:
+    main:
+      enabled: true
+      className: ""
+      annotations: {}
+      hosts:
+        - host: media-servarr.local
+          paths:
+            - path: /radarr
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+
+  persistence:
+    config:
+      type: persistentVolumeClaim
+      forceRename: radarr-config
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /config
+    raw-config:
+      type: configMap
+      identifier: config
+      advancedMounts:
+        main:
+          prepare-config:
+            - path: /config-map
+    processed-config:
+      type: emptyDir
+      advancedMounts:
+        main:
+          prepare-config:
+            - path: /config-processed
+          main:
+            - path: /config/config.xml
+              subPath: config.xml
+    downloads:
+      type: emptyDir
+      globalMounts:
+        - path: /downloads
+    film:
+      type: emptyDir
+      globalMounts:
+        - path: /film
 ```
 
 Notes on behavior changes from the old chart (to call out in Task 4's README):
+- Every value a user overrides for this chart now needs the same `app-template:` nesting shown above (e.g. `app-template.persistence.config.forceRename`, not `persistence.config.forceRename`) — a direct consequence of app-template being a dependency rather than the installed chart itself. This applies to Task 3's translated values file too.
 - Enabling metrics now requires three toggles instead of one: `controllers.main.containers.metrics.enabled`, `service.main.ports.monitoring.enabled`, and `serviceMonitor.main.enabled`. The old chart's single `metrics.enabled` flag fanned out to all three internally; app-template has no equivalent single switch.
 - The exportarr sidecar now reaches Radarr via `http://localhost:7878/radarr` (same pod, shared network namespace) instead of the old Service-DNS URL — simpler and avoids depending on app-template's internal fullname helper.
 - app-template auto-creates a default ServiceAccount per release (`global.createDefaultServiceAccount: true`) even though this chart never explicitly configures one — harmless, but a behavior difference from the old chart, which never created one unless `serviceAccount.create: true` was set.
@@ -602,43 +608,48 @@ nix develop --command bash -c '
 
 Create `/tmp/claude-1000/-home-martin-Documents-projects-media-servarr/6831eeb5-b965-48a0-9f0d-300bda72c578/scratchpad/radarr-new-values.yaml`:
 
+Same nesting rule from Task 2 applies here — this override file merges with the chart's own `app-template:`-nested `values.yaml`, so it needs the same top-level key:
+
 ```yaml
-secrets:
-  radarr:
-    stringData:
-      apiKey: example-not-a-real-api-key
+app-template:
+  secrets:
+    radarr:
+      stringData:
+        apiKey: example-not-a-real-api-key
 
-controllers:
-  main:
-    containers:
-      main:
-        image:
-          repository: ghcr.io/munsio/radarr
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/munsio/radarr
+          securityContext:
+            privileged: true
+      pod:
         securityContext:
-          privileged: true
-    pod:
-      securityContext:
-        fsGroup: 1000
+          fsGroup: 1000
 
-persistence:
-  data-pv:
-    type: custom
-    volumeSpec:
-      persistentVolumeClaim:
-        claimName: data-pv
-    globalMounts:
-      - path: /data
+  persistence:
+    config:
+      storageClass: ceph-block
+    data-pv:
+      type: custom
+      volumeSpec:
+        persistentVolumeClaim:
+          claimName: data-pv
+      globalMounts:
+        - path: /data
 
-ingress:
-  main:
-    hosts:
-      - host: radarr.treml.group
-        paths:
-          - path: /radarr
-            pathType: Prefix
-            service:
-              identifier: main
-              port: http
+  ingress:
+    main:
+      hosts:
+        - host: radarr.treml.group
+          paths:
+            - path: /radarr
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
 ```
 
 Then render the converted chart:
@@ -708,35 +719,41 @@ No commit for this task — it's a validation step, not a code change.
 Replace the `## Configuration` section body (from `### Secrets` through `### Advanced`) with:
 
 ```markdown
+### A note on values structure
+
+This chart depends on [bjw-s's app-template](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) as a subchart rather than being that chart directly. Because of that, every app-template value — in this chart's own `values.yaml` and in any override file you write — must be nested under a top-level `app-template:` key, as shown in every example below.
+
 ### Secrets
 
 To set up secrets, like API keys, use the following format. Use `openssl rand -hex 16` to generate a key and replace the default value.
 
 \`\`\`yaml
-secrets:
-  radarr:
-    stringData:
-      apiKey: 'your-api-key-here'
+app-template:
+  secrets:
+    radarr:
+      stringData:
+        apiKey: 'your-api-key-here'
 \`\`\`
 
 By not setting this value, and leaving it blank, Radarr will automatically generate a key on start.
 
 ### Application Configuration
 
-The base `config.xml` is defined as a ConfigMap in `configMaps.config.data` in `./values.yaml`. You can override the contents in your own values file, for example to change the URL base:
+The base `config.xml` is defined as a ConfigMap in `app-template.configMaps.config.data` in `./values.yaml`. You can override the contents in your own values file, for example to change the URL base:
 
 \`\`\`yaml
-configMaps:
-  config:
-    data:
-      config.xml: |
-        <Config>
-          ...
-          <UrlBase>radarr</UrlBase>
-          <ApiKey>$apiKey</ApiKey>
-          <Port>7878</Port>
-          ...
-        </Config>
+app-template:
+  configMaps:
+    config:
+      data:
+        config.xml: |
+          <Config>
+            ...
+            <UrlBase>radarr</UrlBase>
+            <ApiKey>$apiKey</ApiKey>
+            <Port>7878</Port>
+            ...
+          </Config>
 \`\`\`
 
 The rendered config is regenerated from this ConfigMap (with `$apiKey` substituted from the Secret above) on every pod start via an init container — it is not stored on the persistent `config` volume.
@@ -750,38 +767,40 @@ Three persistence items are defined:
 - **film** - Location of films (plain `emptyDir` by default)
 
 \`\`\`yaml
-persistence:
-  config:
-    type: persistentVolumeClaim
-    forceRename: radarr-config
-    accessMode: ReadWriteOnce
-    size: 1Gi
-    storageClass: your-storage-class
-  downloads:
-    type: custom
-    volumeSpec:
-      nfs:
-        server: fileserver.local
-        path: /srv/downloads/
-  film:
-    type: custom
-    volumeSpec:
-      nfs:
-        server: fileserver.local
-        path: /srv/media/film/
+app-template:
+  persistence:
+    config:
+      type: persistentVolumeClaim
+      forceRename: radarr-config
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      storageClass: your-storage-class
+    downloads:
+      type: custom
+      volumeSpec:
+        nfs:
+          server: fileserver.local
+          path: /srv/downloads/
+    film:
+      type: custom
+      volumeSpec:
+        nfs:
+          server: fileserver.local
+          path: /srv/media/film/
 \`\`\`
 
 To point at a PVC that already exists and that this chart should never create or manage (e.g. a large shared media volume provisioned elsewhere), use a `type: custom` entry with a raw `volumeSpec` instead:
 
 \`\`\`yaml
-persistence:
-  media:
-    type: custom
-    volumeSpec:
-      persistentVolumeClaim:
-        claimName: my-existing-pvc
-    globalMounts:
-      - path: /data
+app-template:
+  persistence:
+    media:
+      type: custom
+      volumeSpec:
+        persistentVolumeClaim:
+          claimName: my-existing-pvc
+      globalMounts:
+        - path: /data
 \`\`\`
 
 ### Ingress
@@ -789,20 +808,21 @@ persistence:
 Ingress can be enabled, and you can customise the default host, path, and TLS settings:
 
 \`\`\`yaml
-ingress:
-  main:
-    enabled: true
-    hosts:
-      - host: example.com
-        paths:
-          - path: /radarr
-            pathType: Prefix
-            service:
-              identifier: main
-              port: http
-    tls:
-      - hosts: ['example.com']
-        secretName: example-com-tls
+app-template:
+  ingress:
+    main:
+      enabled: true
+      hosts:
+        - host: example.com
+          paths:
+            - path: /radarr
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - hosts: ['example.com']
+          secretName: example-com-tls
 \`\`\`
 
 ### Metrics
@@ -810,19 +830,20 @@ ingress:
 Enabling metrics attaches a sidecar container for [exportarr](https://github.com/onedr0p/exportarr/) and a ServiceMonitor CRD consumed by [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus). Unlike the previous chart version, this now needs three separate toggles:
 
 \`\`\`yaml
-controllers:
-  main:
-    containers:
-      metrics:
-        enabled: true
-service:
-  main:
-    ports:
-      monitoring:
-        enabled: true
-serviceMonitor:
-  main:
-    enabled: true
+app-template:
+  controllers:
+    main:
+      containers:
+        metrics:
+          enabled: true
+  service:
+    main:
+      ports:
+        monitoring:
+          enabled: true
+  serviceMonitor:
+    main:
+      enabled: true
 \`\`\`
 
 It is recommended to install the [kube-prometheus chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) first for the CRD to be supported. It is not included as a dependency by default in this package!
@@ -831,7 +852,7 @@ Metrics are served on port `9704`.
 
 ### Advanced
 
-See the [bjw-s app-template documentation](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) for the full set of available configuration, including `controllers.main.pod.nodeSelector`, `controllers.main.pod.tolerations`, `controllers.main.pod.affinity`, container ports, environment variables, and `serviceAccount`.
+See the [bjw-s app-template documentation](https://bjw-s-labs.github.io/helm-charts/docs/app-template/) for the full set of available configuration, including `app-template.controllers.main.pod.nodeSelector`, `app-template.controllers.main.pod.tolerations`, `app-template.controllers.main.pod.affinity`, container ports, environment variables, and `serviceAccount`.
 ```
 
 - [ ] **Step 2: Add a migration note above `## Upgrading`**
@@ -845,9 +866,11 @@ Version 1.0.0 replaces the chart's internal templating with [bjw-s's app-templat
 
 **Your existing data is safe.** The `config` PersistentVolumeClaim keeps its exact original name (`radarr-config`) by default, so a normal `helm upgrade` re-adopts the same PVC and bound volume without recreating it — no manual steps needed for a stock install.
 
-If you previously renamed the config PVC away from the default (e.g. via a custom `persistentVolumeClaims` key), set `persistence.config.forceRename` to your actual PVC name after upgrading, or switch it to a `type: custom` entry (see Volumes above) if you'd rather the chart never manage that PVC's lifecycle at all.
+If you previously renamed the config PVC away from the default (e.g. via a custom `persistentVolumeClaims` key), set `app-template.persistence.config.forceRename` to your actual PVC name after upgrading, or switch it to a `type: custom` entry (see Volumes above) if you'd rather the chart never manage that PVC's lifecycle at all.
 
-If you configured custom `application.config` entries beyond the default `config.xml` (e.g. additional files mounted at other paths), you'll need to translate them manually to `configMaps.config.data` plus a corresponding `controllers.main.initContainers.prepare-config` `sed` line for each file that references a secret — see the Application Configuration section above for the pattern.
+If you configured custom `application.config` entries beyond the default `config.xml` (e.g. additional files mounted at other paths), you'll need to translate them manually to `app-template.configMaps.config.data` plus a corresponding `app-template.controllers.main.initContainers.prepare-config` `sed` line for each file that references a secret — see the Application Configuration section above for the pattern.
+
+Note also that every value in this chart now lives one level deeper than before, under a top-level `app-template:` key — see "A note on values structure" above.
 
 Enabling metrics now requires three separate toggles instead of one — see the Metrics section above.
 ```
