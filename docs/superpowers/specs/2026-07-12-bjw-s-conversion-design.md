@@ -158,8 +158,10 @@ itself but is bundled in since it unblocks removing `yq` from the toolchain.
    homelab's real `radarr-values.yaml`.
 4. Review findings with the maintainer; adjust the pattern if needed.
 5. Once the pattern is signed off, mechanically apply it to the remaining
-   12 charts (bazarr, cleanuparr, flaresolverr, homarr, huntarr, jellyfin,
-   lidarr, prowlarr, readarr, sabnzbd, sonarr, transmission).
+   6 charts (bazarr, jellyfin, prowlarr, readarr, sabnzbd, sonarr).
+   `cleanuparr`, `flaresolverr`, `homarr`, `huntarr`, `lidarr`, and
+   `transmission` were removed from the repo before this rollout and are
+   no longer in scope.
 6. Retire `media-servarr-base`'s templates/dependency wiring.
 7. `helm lint` + `helm template` across all charts as a final pass (existing
    `Makefile` targets are schema-agnostic and need no changes).

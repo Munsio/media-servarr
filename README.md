@@ -34,15 +34,9 @@ helm search repo media-servarr
 There are a number of charts available under the [./charts](./charts) - each with indiviual README instructions to help you get started.
 
 - Bazarr - [bazarr.media](https://www.bazarr.media/)
-- Cleanuparr - [cleanuparr.github.io](https://cleanuparr.github.io/Cleanuparr/)
-- Flaresolverr - [Flaresolverr/Flaresolverr](https://github.com/FlareSolverr/FlareSolverr)
-- Huntarr - [huntarr.io](https://huntarr.io)
-- Homarr - [homarr.dev](https://homarr.dev/)
 - Jellyfin - [jellyfin.org](https://jellyfin.org/)
-- Lidarr - [lidarr.audio](https://lidarr.audio/)
 - Prowlarr - [prowlarr.com](https://prowlarr.com/)
 - Radarr - [radarr.video](https://radarr.video/)
 - Readarr [DEPRECATED] - [readarr.com](https://readarr.com/)
 - Sabnzbd - [sabnzbd.org](https://sabnzbd.org/)
 - Sonarr - [sonarr.tv](https://sonarr.tv/)
-- Transmission - [transmissionbt.com](https://transmissionbt.com)

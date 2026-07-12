@@ -162,7 +162,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-# For radarr, sonarr, readarr, lidarr
+# For radarr, sonarr, readarr
 metrics:
   enabled: false
   app: # Application to set up metrics for
