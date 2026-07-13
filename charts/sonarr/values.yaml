@@ -52,7 +52,7 @@ app-template:
         main:
           image:
             repository: ghcr.io/linuxserver/sonarr
-            tag: "4.0.17"
+            tag: "4.0.19"
           env:
             PGID: "1000"
             PUID: "1000"
