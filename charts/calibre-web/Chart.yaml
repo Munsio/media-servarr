@@ -1,0 +1,29 @@
+apiVersion: 'v2'
+name: 'calibre-web'
+description: 'A web app for browsing, reading, and downloading eBooks stored in a Calibre database'
+home: 'https://github.com/Munsio/media-servarr/tree/main/charts/calibre-web'
+keywords:
+  - 'books'
+  - 'ebooks'
+  - 'calibre'
+  - 'reader'
+  - 'library'
+  - 'manager'
+  - 'media'
+kubeVersion: ">=1.28.0-0"
+type: 'application'
+version: 0.1.0
+appVersion: 0.6.27
+icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/calibre-web/icon.png'
+dependencies:
+  - name: 'app-template'
+    version: '5.0.1'
+    repository: 'https://bjw-s-labs.github.io/helm-charts'
+maintainers:
+  - name: 'media-servarr'
+    email: 'git@treml.dev'
+    url: 'https://github.com/Munsio/media-servarr/'
+sources:
+  - 'https://github.com/janeczku/calibre-web'
+  - 'https://github.com/linuxserver/docker-calibre-web'
+  - 'https://github.com/Munsio/media-servarr/tree/main/charts/calibre-web'
