@@ -1,5 +1,38 @@
 apiVersion: v1
 entries:
+  audiobookshelf:
+  - apiVersion: v2
+    appVersion: 2.36.0
+    created: "2026-08-23T14:33:18.039141354Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: A self-hosted audiobook and podcast server
+    digest: db90c9061997a7195b764f87206fe6bf97fecd428820e56355c5b80e21ff03e5
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/audiobookshelf
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/audiobookshelf/icon.png
+    keywords:
+    - audiobooks
+    - podcasts
+    - books
+    - reader
+    - library
+    - manager
+    - media
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: audiobookshelf
+    sources:
+    - https://github.com/advplyr/audiobookshelf
+    - https://github.com/Munsio/media-servarr/tree/main/charts/audiobookshelf
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/audiobookshelf-0.1.0/audiobookshelf-0.1.0.tgz
+    version: 0.1.0
   bazarr:
   - apiVersion: v2
     appVersion: 1.5.6
@@ -4479,4 +4512,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-07-12T17:10:47.614795119Z"
+generated: "2026-08-23T14:33:19.337302061Z"
