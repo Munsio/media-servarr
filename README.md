@@ -38,7 +38,6 @@ There are a number of charts available under the [./charts](./charts) - each wit
 - Jellyfin - [jellyfin.org](https://jellyfin.org/)
 - Prowlarr - [prowlarr.com](https://prowlarr.com/)
 - Radarr - [radarr.video](https://radarr.video/)
-- Readarr [DEPRECATED] - [readarr.com](https://readarr.com/)
 - Sabnzbd - [sabnzbd.org](https://sabnzbd.org/)
 - Sonarr - [sonarr.tv](https://sonarr.tv/)
 
