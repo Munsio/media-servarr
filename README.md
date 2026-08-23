@@ -33,6 +33,7 @@ helm search repo media-servarr
 
 There are a number of charts available under the [./charts](./charts) - each with indiviual README instructions to help you get started.
 
+- Audiobookshelf - [audiobookshelf.org](https://audiobookshelf.org/)
 - Bazarr - [bazarr.media](https://www.bazarr.media/)
 - Jellyfin - [jellyfin.org](https://jellyfin.org/)
 - Prowlarr - [prowlarr.com](https://prowlarr.com/)
