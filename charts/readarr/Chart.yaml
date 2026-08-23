@@ -18,7 +18,7 @@ icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/readarr/icon.png
 deprecated: true
 dependencies:
   - name: 'app-template'
-    version: '5.0.1'
+    version: 5.1.0
     repository: 'https://bjw-s-labs.github.io/helm-charts'
 maintainers:
   - name: 'media-servarr'
