@@ -35,6 +35,7 @@ There are a number of charts available under the [./charts](./charts) - each wit
 
 - Audiobookshelf - [audiobookshelf.org](https://audiobookshelf.org/)
 - Bazarr - [bazarr.media](https://www.bazarr.media/)
+- Calibre-Web - [github.com/janeczku/calibre-web](https://github.com/janeczku/calibre-web)
 - Jellyfin - [jellyfin.org](https://jellyfin.org/)
 - Prowlarr - [prowlarr.com](https://prowlarr.com/)
 - Radarr - [radarr.video](https://radarr.video/)
