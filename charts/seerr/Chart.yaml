@@ -1,0 +1,31 @@
+apiVersion: 'v2'
+name: 'seerr'
+description: 'Free and open source software for managing requests for your media library, the unified successor to Overseerr and Jellyseerr'
+home: 'https://github.com/Munsio/media-servarr/tree/main/charts/seerr'
+keywords:
+  - 'requests'
+  - 'jellyfin'
+  - 'plex'
+  - 'emby'
+  - 'radarr'
+  - 'sonarr'
+  - 'manager'
+  - 'overseerr'
+  - 'jellyseerr'
+  - 'seerr'
+kubeVersion: ">=1.28.0-0"
+type: 'application'
+version: 1.0.0
+appVersion: 3.3.0
+icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/seerr/icon.png'
+dependencies:
+  - name: 'app-template'
+    version: '5.0.1'
+    repository: 'https://bjw-s-labs.github.io/helm-charts'
+maintainers:
+  - name: 'media-servarr'
+    email: 'git@treml.dev'
+    url: 'https://github.com/Munsio/media-servarr/'
+sources:
+  - 'https://github.com/seerr-team/seerr'
+  - 'https://github.com/Munsio/media-servarr/tree/main/charts/seerr'

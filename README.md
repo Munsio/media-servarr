@@ -39,6 +39,7 @@ There are a number of charts available under the [./charts](./charts) - each wit
 - Prowlarr - [prowlarr.com](https://prowlarr.com/)
 - Radarr - [radarr.video](https://radarr.video/)
 - Sabnzbd - [sabnzbd.org](https://sabnzbd.org/)
+- Seerr - [github.com/seerr-team/seerr](https://github.com/seerr-team/seerr)
 - Sonarr - [sonarr.tv](https://sonarr.tv/)
 
 ## Acknowledgements
