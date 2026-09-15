@@ -63,7 +63,7 @@ app-template:
         main:
           image:
             repository: ghcr.io/linuxserver/bazarr
-            tag: "1.6.0"
+            tag: "1.6.1"
           env:
             PGID: "1000"
             PUID: "1000"
