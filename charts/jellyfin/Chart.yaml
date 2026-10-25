@@ -15,8 +15,9 @@ keywords:
   - 'jellyfin'
 kubeVersion: ">=1.28.0-0"
 type: 'application'
-version: 1.1.1
-appVersion: 10.11.11
+version: 1.1.2
+# renovate: image=jellyfin/jellyfin
+appVersion: "12.3"
 icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/jellyfin/icon.png'
 dependencies:
   - name: 'app-template'

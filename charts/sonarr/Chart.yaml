@@ -13,8 +13,9 @@ keywords:
   - 'sonarr'
 kubeVersion: ">=1.28.0-0"
 type: 'application'
-version: 1.1.1
-appVersion: 4.0.17
+version: 1.1.2
+# renovate: image=ghcr.io/linuxserver/sonarr
+appVersion: "4.0.20"
 icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/sonarr/icon.png'
 dependencies:
   - name: 'app-template'

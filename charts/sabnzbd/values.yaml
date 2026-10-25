@@ -85,7 +85,7 @@ app-template:
             - name: http
               containerPort: 8080
         metrics:
-          enabled: true
+          enabled: false
           image:
             repository: ghcr.io/onedr0p/exportarr
             tag: 2.3.0

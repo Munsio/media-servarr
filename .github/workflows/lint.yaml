@@ -55,3 +55,16 @@ jobs:
       - name: 'Lint Helm charts'
         if: env.CHANGED_CHARTS != ''
         run: 'make lint CHARTS="$CHANGED_CHARTS"'
+
+      # Catch image tags that don't exist before they get released.
+      - name: 'Verify chart images exist'
+        if: env.CHANGED_CHARTS != ''
+        run: |
+          set -o pipefail
+          for chart in $CHANGED_CHARTS; do
+            images=$(helm template "./charts/$chart" --kube-version 1.31.0 | grep -E '^\s+(- )?image:' | awk '{print $NF}' | tr -d '"' | sort -u)
+            [ -n "$images" ] || { echo "::error::$chart: no images rendered"; exit 1; }
+            for image in $images; do
+              docker manifest inspect "$image" > /dev/null || { echo "::error::$chart: $image not found"; exit 1; }
+            done
+          done
