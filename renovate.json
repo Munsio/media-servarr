@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "description": "Release every chart change by bumping its version in the same PR",
+      "matchManagers": ["helm-values", "helmv3"],
+      "matchFileNames": ["charts/**"],
+      "bumpVersions": [
+        {
+          "name": "Chart version",
+          "filePatterns": ["{{packageFileDir}}/Chart.yaml"],
+          "matchStrings": ["(?:^|\\n)version: (?<version>\\S+)"],
+          "bumpType": "patch"
+        }
+      ]
+    }
+  ]
+}

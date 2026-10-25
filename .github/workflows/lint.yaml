@@ -56,7 +56,7 @@ jobs:
         if: env.CHANGED_CHARTS != ''
         run: 'make lint CHARTS="$CHANGED_CHARTS"'
 
-      # Dependabot rewrites tags like v1.2.3 to 1.2.3, so check every rendered image exists.
+      # Catch image tags that don't exist before they get released.
       - name: 'Verify chart images exist'
         if: env.CHANGED_CHARTS != ''
         run: |
