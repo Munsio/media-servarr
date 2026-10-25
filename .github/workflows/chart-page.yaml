@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+concurrency:
+  group: chart-release
+
 # permissions are needed if pushing to ghcr.io
 permissions:
   contents: write
@@ -16,11 +19,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
+          ref: main
           fetch-depth: 0
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      # Dependabot only bumps image tags, so release those changes with a patch bump.
+      - name: Bump versions of changed charts
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          for chart in $(git diff --name-only "$BEFORE" HEAD -- charts/ | cut -d/ -f2 | sort -u); do
+            f="charts/$chart/Chart.yaml"
+            [ -f "$f" ] || continue
+            git diff "$BEFORE" HEAD -- "$f" | grep -q '^+version:' && continue
+            version=$(yq '.version' "$f" | awk -F. '{print $1"."$2"."$3+1}')
+            sed -i -E "s/^version: .*/version: $version/" "$f"
+            tag=$(yq '.app-template.controllers.main.containers.main.image.tag // ""' "charts/$chart/values.yaml")
+            [ -n "$tag" ] && sed -i -E "s/^appVersion: .*/appVersion: \"${tag#v}\"/" "$f"
+            git add "$f"
+          done
+          git diff --cached --quiet && exit 0
+          git commit -m "Bump versions of changed charts"
+          git push origin HEAD:main
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.7.0

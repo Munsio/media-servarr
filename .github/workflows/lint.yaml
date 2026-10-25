@@ -55,3 +55,13 @@ jobs:
       - name: 'Lint Helm charts'
         if: env.CHANGED_CHARTS != ''
         run: 'make lint CHARTS="$CHANGED_CHARTS"'
+
+      # Dependabot rewrites tags like v1.2.3 to 1.2.3, so check every rendered image exists.
+      - name: 'Verify chart images exist'
+        if: env.CHANGED_CHARTS != ''
+        run: |
+          for chart in $CHANGED_CHARTS; do
+            for image in $(helm template "./charts/$chart" | grep -E '^\s+(- )?image:' | awk '{print $NF}' | tr -d '"' | sort -u); do
+              docker manifest inspect "$image" > /dev/null || { echo "::error::$chart: $image not found"; exit 1; }
+            done
+          done
