@@ -60,8 +60,11 @@ jobs:
       - name: 'Verify chart images exist'
         if: env.CHANGED_CHARTS != ''
         run: |
+          set -o pipefail
           for chart in $CHANGED_CHARTS; do
-            for image in $(helm template "./charts/$chart" | grep -E '^\s+(- )?image:' | awk '{print $NF}' | tr -d '"' | sort -u); do
+            images=$(helm template "./charts/$chart" --kube-version 1.31.0 | grep -E '^\s+(- )?image:' | awk '{print $NF}' | tr -d '"' | sort -u)
+            [ -n "$images" ] || { echo "::error::$chart: no images rendered"; exit 1; }
+            for image in $images; do
               docker manifest inspect "$image" > /dev/null || { echo "::error::$chart: $image not found"; exit 1; }
             done
           done
