@@ -9,7 +9,7 @@
       "bumpVersions": [
         {
           "name": "Chart version",
-          "filePatterns": ["{{packageFileDir}}/Chart.yaml"],
+          "filePatterns": ["/^({{#each (distinct (lookupArray upgrades \"packageFileDir\"))}}{{{.}}}{{#unless @last}}|{{/unless}}{{/each}})/Chart\\.yaml$/"],
           "matchStrings": ["(?:^|\\n)version: (?<version>\\S+)"],
           "bumpType": "patch"
         }
