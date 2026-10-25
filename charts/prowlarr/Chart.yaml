@@ -16,7 +16,7 @@ appVersion: "2.6.5"
 icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/prowlarr/icon.png'
 dependencies:
   - name: 'app-template'
-    version: 5.2.1
+    version: 5.3.0
     repository: 'https://bjw-s-labs.github.io/helm-charts'
 maintainers:
   - name: 'media-servarr'
