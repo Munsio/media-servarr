@@ -2,6 +2,38 @@ apiVersion: v1
 entries:
   audiobookshelf:
   - apiVersion: v2
+    appVersion: 2.37.1
+    created: "2026-10-25T11:32:04.363003665Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: A self-hosted audiobook and podcast server
+    digest: 0a156ea6ede72cbbbb63b5bff0531cab3a2cf6ffcc2363cf3a77aa31b9fc376c
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/audiobookshelf
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/audiobookshelf/icon.png
+    keywords:
+    - audiobooks
+    - podcasts
+    - books
+    - reader
+    - library
+    - manager
+    - media
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: audiobookshelf
+    sources:
+    - https://github.com/advplyr/audiobookshelf
+    - https://github.com/Munsio/media-servarr/tree/main/charts/audiobookshelf
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/audiobookshelf-0.1.1/audiobookshelf-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 2.36.0
     created: "2026-08-23T14:33:18.039141354Z"
     dependencies:
@@ -34,6 +66,42 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/audiobookshelf-0.1.0/audiobookshelf-0.1.0.tgz
     version: 0.1.0
   bazarr:
+  - apiVersion: v2
+    appVersion: 1.6.2
+    created: "2026-10-25T11:32:04.547723221Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: Companion application to Sonarr and Radarr to manage and download
+      subtitles
+    digest: 94d1ca752f5ab193a979309494afdbb5a71168b8d065e659e944cbfca8e32fa8
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/bazarr
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/bazarr/icon.png
+    keywords:
+    - subtitles
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    - sonarr
+    - bazarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: bazarr
+    sources:
+    - https://github.com/morpheus65535/Bazarr
+    - https://github.com/linuxserver/docker-bazarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/Munsio/media-servarr/tree/main/charts/bazarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/bazarr-1.1.2/bazarr-1.1.2.tgz
+    version: 1.1.2
   - apiVersion: v2
     appVersion: 1.5.6
     created: "2026-07-12T17:10:46.814424248Z"
@@ -1897,6 +1965,42 @@ entries:
     version: 0.1.0
   jellyfin:
   - apiVersion: v2
+    appVersion: "12.3"
+    created: "2026-10-25T11:32:04.70855407Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: A free software media system that puts you in control of managing
+      and streaming your media
+    digest: f45df5e1f78252a98d64d43d80cba29c62b858d5d4d7774d2a8b10916a6eb308
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/jellyfin
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/jellyfin/icon.png
+    keywords:
+    - music
+    - tv
+    - television
+    - film
+    - movie
+    - ebooks
+    - manager
+    - stream
+    - media
+    - jellyfin
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: jellyfin
+    sources:
+    - https://github.com/jellyfin/jellyfin
+    - https://github.com/Munsio/media-servarr/tree/main/charts/jellyfin
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/jellyfin-1.1.2/jellyfin-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
     appVersion: 10.11.11
     created: "2026-07-12T17:10:46.93503133Z"
     dependencies:
@@ -2771,6 +2875,38 @@ entries:
     version: 0.9.1
   prowlarr:
   - apiVersion: v2
+    appVersion: 2.6.5
+    created: "2026-10-25T11:32:04.830723707Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: BitTorrent indexer management
+    digest: 6c0245c21f8d6bc8a5581023eee2aee4a9bc1624a372a6c53bf0bc0dfd47ca29
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/prowlarr
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/prowlarr/icon.png
+    keywords:
+    - bittorrent
+    - torrent
+    - download
+    - indexer
+    - prowlarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: prowlarr
+    sources:
+    - https://github.com/Prowlarr/Prowlarr
+    - https://github.com/linuxserver/docker-prowlarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/Munsio/media-servarr/tree/main/charts/prowlarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/prowlarr-1.1.2/prowlarr-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
     appVersion: 2.4.0
     created: "2026-07-12T17:10:47.047544063Z"
     dependencies:
@@ -3155,6 +3291,40 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/prowlarr-0.10.0/prowlarr-0.10.0.tgz
     version: 0.10.0
   radarr:
+  - apiVersion: v2
+    appVersion: 6.4.4
+    created: "2026-10-25T11:32:05.006780947Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: Movie collection manager for Usenet and BitTorrent users
+    digest: 0de90b9c1797696ec11248b9ac063f11f1c9538ddc78aaaf451fa7b3ac7cdb9a
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/radarr
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/radarr/icon.png
+    keywords:
+    - film
+    - movies
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - radarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: radarr
+    sources:
+    - https://github.com/Radarr/Radarr
+    - https://github.com/linuxserver/docker-radarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/Munsio/media-servarr/tree/main/charts/radarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/radarr-1.3.0/radarr-1.3.0.tgz
+    version: 1.3.0
   - apiVersion: v2
     appVersion: 6.2.1
     created: "2026-06-16T16:35:08.148369841Z"
@@ -3744,6 +3914,36 @@ entries:
     version: 0.8.6
   sabnzbd:
   - apiVersion: v2
+    appVersion: 5.1.3
+    created: "2026-10-25T11:32:05.167244996Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: SABnzbd is a program to download binary files from Usenet servers
+    digest: 802b126814e11328b838f86e39762291b029473b11c3ddbab1ee9ba9a75f1d0b
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/sabnzbd
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/sabnzbd/icon.png
+    keywords:
+    - usenet
+    - newsreader
+    - sabnzbd
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: sabnzbd
+    sources:
+    - https://github.com/sabnzbd/sabnzbd
+    - https://hub.docker.com/r/linuxserver/sabnzbd
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/Munsio/media-servarr/tree/main/charts/sabnzbd
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sabnzbd-1.1.2/sabnzbd-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
     appVersion: 5.0.4
     created: "2026-07-12T17:10:47.499128762Z"
     dependencies:
@@ -4015,6 +4215,42 @@ entries:
     version: 0.4.1
   seerr:
   - apiVersion: v2
+    appVersion: v3.5.1
+    created: "2026-10-25T11:32:05.304288312Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: Free and open source software for managing requests for your media
+      library, the unified successor to Overseerr and Jellyseerr
+    digest: 11fdf1e2e66051b529f2fd31f9d6aab13b720582c5f8dba1af390600974eb5fa
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/seerr
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/seerr/icon.png
+    keywords:
+    - requests
+    - jellyfin
+    - plex
+    - emby
+    - radarr
+    - sonarr
+    - manager
+    - overseerr
+    - jellyseerr
+    - seerr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: seerr
+    sources:
+    - https://github.com/seerr-team/seerr
+    - https://github.com/Munsio/media-servarr/tree/main/charts/seerr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/seerr-1.0.2/seerr-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
     appVersion: 3.4.1
     created: "2026-09-14T18:30:57.869229095Z"
     dependencies:
@@ -4087,6 +4323,41 @@ entries:
     - https://github.com/Munsio/media-servarr/releases/download/seerr-1.0.0/seerr-1.0.0.tgz
     version: 1.0.0
   sonarr:
+  - apiVersion: v2
+    appVersion: 4.0.20
+    created: "2026-10-25T11:32:05.465825195Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: Television series manager for Usenet and BitTorrent users
+    digest: 3f434ce2735aff973b04e4fe64b7d536856f2a6a11f3dcabef2553553cf4ca33
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/sonarr
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/sonarr/icon.png
+    keywords:
+    - tv
+    - television
+    - series
+    - torrent
+    - bittorrent
+    - usenet
+    - manager
+    - sonarr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: sonarr
+    sources:
+    - https://github.com/Sonarr/Sonarr
+    - https://github.com/linuxserver/docker-sonarr
+    - https://ghcr.io/onedr0p/exportarr
+    - https://github.com/Munsio/media-servarr/tree/main/charts/sonarr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/sonarr-1.1.2/sonarr-1.1.2.tgz
+    version: 1.1.2
   - apiVersion: v2
     appVersion: 4.0.17
     created: "2026-07-12T17:10:47.614536734Z"
@@ -4585,4 +4856,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-09-14T18:30:57.869466738Z"
+generated: "2026-10-25T11:32:05.466169369Z"
