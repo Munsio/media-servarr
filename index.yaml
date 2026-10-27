@@ -2065,6 +2065,42 @@ entries:
     version: 0.1.0
   jellyfin:
   - apiVersion: v2
+    appVersion: "12.4"
+    created: "2026-10-27T10:44:41.004193126Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.3.0
+    description: A free software media system that puts you in control of managing
+      and streaming your media
+    digest: e7d57c6487b909c6b0716e0718b4b77a360a880c1e6cc5f410ee3483d46e7220
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/jellyfin
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/jellyfin/icon.png
+    keywords:
+    - music
+    - tv
+    - television
+    - film
+    - movie
+    - ebooks
+    - manager
+    - stream
+    - media
+    - jellyfin
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: jellyfin
+    sources:
+    - https://github.com/jellyfin/jellyfin
+    - https://github.com/Munsio/media-servarr/tree/main/charts/jellyfin
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/jellyfin-1.1.4/jellyfin-1.1.4.tgz
+    version: 1.1.4
+  - apiVersion: v2
     appVersion: "12.3"
     created: "2026-10-25T11:48:17.51927076Z"
     dependencies:
@@ -5159,4 +5195,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-10-25T11:48:18.60353827Z"
+generated: "2026-10-27T10:44:41.004616443Z"
