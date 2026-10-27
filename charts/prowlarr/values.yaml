@@ -52,7 +52,7 @@ app-template:
         main:
           image:
             repository: ghcr.io/linuxserver/prowlarr
-            tag: "2.6.5"
+            tag: "2.7.0"
           env:
             PGID: "1000"
             PUID: "1000"
