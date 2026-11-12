@@ -15,9 +15,9 @@ keywords:
   - 'seerr'
 kubeVersion: ">=1.28.0-0"
 type: 'application'
-version: 1.0.3
+version: 1.0.4
 # renovate: image=ghcr.io/seerr-team/seerr
-appVersion: "v3.5.1"
+appVersion: "v3.5.2"
 icon: 'https://github.com/Munsio/media-servarr/blob/main/charts/seerr/icon.png'
 dependencies:
   - name: 'app-template'
