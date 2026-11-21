@@ -4515,6 +4515,42 @@ entries:
     version: 0.4.1
   seerr:
   - apiVersion: v2
+    appVersion: v3.5.2
+    created: "2026-11-21T23:12:38.325343785Z"
+    dependencies:
+    - name: app-template
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.3.0
+    description: Free and open source software for managing requests for your media
+      library, the unified successor to Overseerr and Jellyseerr
+    digest: bf8d2c157639b72ad95eb1fc0da3973d2c2d895b5bb046d9b04fb209f4ff2a61
+    home: https://github.com/Munsio/media-servarr/tree/main/charts/seerr
+    icon: https://github.com/Munsio/media-servarr/blob/main/charts/seerr/icon.png
+    keywords:
+    - requests
+    - jellyfin
+    - plex
+    - emby
+    - radarr
+    - sonarr
+    - manager
+    - overseerr
+    - jellyseerr
+    - seerr
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - email: git@treml.dev
+      name: media-servarr
+      url: https://github.com/Munsio/media-servarr/
+    name: seerr
+    sources:
+    - https://github.com/seerr-team/seerr
+    - https://github.com/Munsio/media-servarr/tree/main/charts/seerr
+    type: application
+    urls:
+    - https://github.com/Munsio/media-servarr/releases/download/seerr-1.0.4/seerr-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
     appVersion: v3.5.1
     created: "2026-10-25T11:48:18.60293842Z"
     dependencies:
@@ -5227,4 +5263,4 @@ entries:
     urls:
     - https://github.com/Munsio/media-servarr/releases/download/transmission-0.7.3/transmission-0.7.3.tgz
     version: 0.7.3
-generated: "2026-10-31T10:51:50.460870348Z"
+generated: "2026-11-21T23:12:38.32563442Z"
